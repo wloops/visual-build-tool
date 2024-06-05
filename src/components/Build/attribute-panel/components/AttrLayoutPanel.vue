@@ -10,8 +10,17 @@ const props = defineProps({
 })
 const emit = defineEmits(['callback'])
 
+const layoutModel = ref(materialStore.materialLayout)
+
+watch(
+  () => materialStore.materialLayout,
+  (newVal) => {
+    layoutModel.value = newVal
+  }
+)
+
 const form = reactive({
-  key: props.model,
+  key: layoutModel.value,
   posts: [{
     id: 1,
     value: 1
@@ -20,17 +29,10 @@ const form = reactive({
 
 const layoutParams = ref({
   key: new Date().getTime(),
-  direction: props.model,
+  direction: layoutModel.value,
   list: []
 })
 
-// watch(
-//   () => materialStore.materialLayout,
-//   (newVal) => {
-//     form.key = newVal
-//     layoutParams.value.key = newVal
-//   }
-// )
 
 const colNum = ref(3) // 默认3列
 
@@ -38,7 +40,7 @@ const colNum = ref(3) // 默认3列
 const handAddList = () => {
   layoutParams.value.key = new Date().getTime()
   layoutParams.value.list.push({
-    name: `${props.model}-` + (layoutParams.value.list.length + 1),
+    name: `${layoutModel.value}-` + (layoutParams.value.list.length + 1),
     direction: 'column',
     innerBoxs: [{
       name: 'block-1',
