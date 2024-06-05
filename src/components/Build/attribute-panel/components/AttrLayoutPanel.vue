@@ -1,0 +1,140 @@
+<script setup>
+import { v4 as uuidv4 } from 'uuid';
+import { useMaterialStore } from '@/stores/material'
+
+const materialStore = useMaterialStore()
+const props = defineProps({
+  model: {
+    type: Object,
+  }
+})
+const emit = defineEmits(['callback'])
+
+const form = reactive({
+  key: props.model,
+  posts: [{
+    id: 1,
+    value: 1
+  }]
+})
+
+const layoutParams = ref({
+  key: new Date().getTime(),
+  direction: props.model,
+  list: []
+})
+
+// watch(
+//   () => materialStore.materialLayout,
+//   (newVal) => {
+//     form.key = newVal
+//     layoutParams.value.key = newVal
+//   }
+// )
+
+const colNum = ref(3) // 默认3列
+
+
+const handAddList = () => {
+  layoutParams.value.key = new Date().getTime()
+  layoutParams.value.list.push({
+    name: `${props.model}-` + (layoutParams.value.list.length + 1),
+    direction: 'column',
+    innerBoxs: [{
+      name: 'block-1',
+      direction: 'column',
+    }]
+  })
+
+  console.log('handAddList', layoutParams.value)
+}
+const handAddInnerBoxs = async (index) => {
+  layoutParams.value.key = new Date().getTime()
+  layoutParams.value.list[index].innerBoxs.push({
+    id: 'block-id-' + uuidv4(),
+    name: 'block-' + (layoutParams.value.list[index].innerBoxs.length + 1),
+    direction: 'column',
+  })
+  console.log('handAddInnerBoxs', layoutParams.value)
+}
+const handleAdd = async () => {
+  console.log('handleAdd')
+  form.posts.push({
+    id: form.posts.length + 1,
+    value: 1
+  })
+}
+
+const handleDelete = (index) => {
+  form.posts.splice(index, 1)
+}
+
+const setinnerBoxs = async (value, index) => {
+  console.log('setinnerBoxs', value, index)
+  // 先清空
+  layoutParams.value.list[index].innerBoxs = []
+  for (let i = 0; i < value; i++) {
+    handAddInnerBoxs(index)
+  }
+
+  await emit('callback', layoutParams.value)
+}
+
+// 初始化
+const show = ref(false)
+const init = async () => {
+  form.posts = []
+  layoutParams.value.list = []
+  for (let index = 0; index < colNum.value; index++) {
+    console.log('index::', index)
+    await handleAdd()
+    await handAddList(index)
+    await setinnerBoxs(1, index)
+  }
+  show.value = true
+  emit('callback', layoutParams.value)
+  // 存储在pinia中
+  // materialStore.setLayoutParams(form)
+}
+
+init()
+
+const setPosts = (value) => {
+  colNum.value = value
+  init()
+}
+
+const setLayoutLabel = (model) => {
+  switch (model) {
+    case 'column':
+      return '列数'
+    case 'row':
+      return '行数'
+    default:
+      return '栅格数'
+  }
+}
+
+</script>
+
+<template>
+  <div>
+    <a-form :model="form" layout="vertical" v-if="show">
+      <a-form-item field="colNum" :label="setLayoutLabel(model)">
+        <a-input-number placeholder="Please Enter" :default-value="colNum" mode="button" class="input-demo"
+          @change="setPosts" />
+      </a-form-item>
+      <a-form-item v-for="(post, index) of form.posts" :field="`posts[${index}].value`" :label="`第${index + 1}列布局参数`"
+        :key="index">
+        <a-form-item :field="`posts[${index}].value`" label="区块数">
+          <a-input-number placeholder="Please Enter" :default-value="post.value" mode="button" class="input-demo"
+            @change="setinnerBoxs($event, index)" />
+          <!-- <a-button @click="handleDelete(index)" :style="{ marginLeft: '10px' }">Delete</a-button> -->
+        </a-form-item>
+      </a-form-item>
+    </a-form>
+  </div>
+</template>
+
+
+<style scoped></style>
