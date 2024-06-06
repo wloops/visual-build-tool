@@ -1,7 +1,7 @@
 <script setup>
 import IconRiLayout5Fill from '~icons/ri/layout-5-fill'
 import signalAlt3 from '~icons/uit/signal-alt-3'
-import pluginLine from '~icons/clarity/plugin-line'
+import pluginLine from '~icons/clarity/plugin-solid'
 import MaterialLayout from './components/MaterialLayout.vue'
 import ChartStore from './components/ChartStore.vue'
 
@@ -17,21 +17,21 @@ const materialList = ref([
     component: MaterialLayout,
     desc: '用于构建页面的基础组件，包括按钮、输入框、表格、布局、导航等。'
   },
+  // {
+  //   name: '图表',
+  //   key: '2',
+  //   icon: signalAlt3,
+  //   disabled: false,
+  //   component: ChartStore,
+  //   desc: '用于展示数据的可视化图表，包括折线图、柱状图、饼图等。'
+  // },
   {
-    name: '图表',
-    key: '2',
-    icon: signalAlt3,
-    disabled: false,
-    component: ChartStore,
-    desc: '用于展示数据的可视化图表，包括折线图、柱状图、饼图等。'
-  },
-  {
-    name: '插件',
+    name: '组件',
     key: '3',
     icon: pluginLine,
     disabled: false,
-    component: '暂无',
-    desc: '提供一些常用的功能插件，如日历、上传、地图等。'
+    component: ChartStore,
+    desc: '提供一些常用的功能插件，如图表、日历、上传、地图等。'
   }
 ])
 let activeKey = ref('1')

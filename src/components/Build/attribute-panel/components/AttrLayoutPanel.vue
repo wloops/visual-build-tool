@@ -128,13 +128,13 @@ const setLayoutLabel = (model) => {
     <a-form :model="form" layout="vertical" v-if="show">
       <a-form-item field="colNum" :label="setLayoutLabel(model)">
         <a-input-number placeholder="Please Enter" :default-value="colNum" mode="button" class="input-demo"
-          @change="setPosts" />
+          @change="setPosts" :min="2" :max="5" />
       </a-form-item>
       <a-form-item v-for="(post, index) of form.posts" :field="`posts[${index}].value`" :label="`第${index + 1}列布局参数`"
         :key="index">
         <a-form-item :field="`posts[${index}].value`" label="区块数">
           <a-input-number placeholder="Please Enter" :default-value="post.value" mode="button" class="input-demo"
-            @change="setinnerBoxs($event, index)" />
+            :min="1" :max="5" @change="setinnerBoxs($event, index)" />
           <!-- <a-button @click="handleDelete(index)" :style="{ marginLeft: '10px' }">Delete</a-button> -->
         </a-form-item>
       </a-form-item>

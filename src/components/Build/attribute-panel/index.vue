@@ -2,6 +2,7 @@
 import { useMaterialStore } from '@/stores/material'
 import { useSelectBoxStore } from '@/stores/selectBox'
 import AttrLayoutPanel from './components/AttrLayoutPanel.vue'
+import BackgroundPanel from './components/BackgroundPanel.vue';
 
 
 const materialStore = useMaterialStore()
@@ -16,12 +17,11 @@ const attrs = ref([
     key: 'layout',
     component: AttrLayoutPanel,
   },
-  // {
-
-  //   name: '背景调整',
-  //   key: 'background',
-  //   component: 'attr-background-panel',
-  // },
+  {
+    name: '背景调整',
+    key: 'background',
+    component: BackgroundPanel,
+  },
 ])
 
 watch(
@@ -53,7 +53,7 @@ function callback(data) {
 
       <a-tabs position="top" type="line" size="large">
         <a-tab-pane v-for="item in attrs" :key="item.key" :title="item.name">
-          <component :is="item.component" :model="layoutModel" @callback="callback" h-70vh overflow-y-scroll />
+          <component :is="item.component" :model="layoutModel" @callback="callback" h-70vh overflow-y-auto />
         </a-tab-pane>
 
       </a-tabs>
