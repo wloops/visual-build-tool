@@ -3,6 +3,7 @@ import IconRiLayout5Fill from '~icons/ri/layout-5-fill'
 import signalAlt3 from '~icons/uit/signal-alt-3'
 import pluginLine from '~icons/clarity/plugin-line'
 import MaterialLayout from './components/MaterialLayout.vue'
+import ChartStore from './components/ChartStore.vue'
 
 import { useSelectBoxStore } from '@/stores/selectBox'
 const selectBoxStore = useSelectBoxStore()
@@ -21,7 +22,7 @@ const materialList = ref([
     key: '2',
     icon: signalAlt3,
     disabled: false,
-    component: '暂无1',
+    component: ChartStore,
     desc: '用于展示数据的可视化图表，包括折线图、柱状图、饼图等。'
   },
   {
@@ -43,15 +44,18 @@ watch(
   () => selectBoxStore.selectedBox,
   (newVal) => {
     console.log('selectedBox', newVal)
-    console.log('selectedBox', document.querySelector(`#${newVal.id}`))
-    if (newVal.actived === true) {
-      activeKey.value = '2'
-      materialList.value[0].disabled = true
+    if (newVal) {
+
+      // console.log('selectedBox', document.querySelector(`#${newVal.id}`))
     }
-    else {
-      materialList.value[0].disabled = false
-      activeKey.value = '1'
-    }
+    // if (newVal.actived === true) {
+    //   activeKey.value = '2'
+    //   materialList.value[0].disabled = true
+    // }
+    // else {
+    //   materialList.value[0].disabled = false
+    //   activeKey.value = '1'
+    // }
   }
 )
 </script>

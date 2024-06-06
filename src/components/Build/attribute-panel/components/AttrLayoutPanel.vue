@@ -1,8 +1,10 @@
 <script setup>
 import { v4 as uuidv4 } from 'uuid';
 import { useMaterialStore } from '@/stores/material'
+import { useSelectBoxStore } from '@/stores/selectBox'
 
 const materialStore = useMaterialStore()
+const selectBoxStore = useSelectBoxStore()
 const props = defineProps({
   model: {
     type: Object,
@@ -57,6 +59,8 @@ const handAddInnerBoxs = async (index) => {
     name: 'block-' + (layoutParams.value.list[index].innerBoxs.length + 1),
     direction: 'column',
   })
+
+  selectBoxStore.setSelectBox({ id: 'block-id-' + uuidv4(), actived: false })
   console.log('handAddInnerBoxs', layoutParams.value)
 }
 const handleAdd = async () => {

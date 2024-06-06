@@ -6,8 +6,12 @@ export const useSelectBoxStore = defineStore('selectBox', () => {
   const setSelectBox = (value) => {
     selectedBox.value = value
   }
+  const clearSelectedBox = () => {
+    selectedBox.value = null
+  }
   return {
     selectedBox,
-    setSelectBox
+    setSelectBox,
+    clearSelectedBox
   }
 })

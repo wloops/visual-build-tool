@@ -68,6 +68,7 @@ watch(() => props.canvasLayoutData, (newValue, oldValue) => {
   console.log('layoutModel:', layoutModel.value)
   // layoutModel.value = newValue.direction
   layoutData.value = newValue.list
+  // selectBoxStore.setSelectBox(null)
 
 }, {
   deep: true,
@@ -75,6 +76,18 @@ watch(() => props.canvasLayoutData, (newValue, oldValue) => {
 
 const activeID = ref('')
 function selectBox(box) {
+  const innerBoxs = document.querySelectorAll('.innerBox')
+  innerBoxs.forEach((item) => {
+    console.log('item.value', item.getAttribute('value'))
+    let value = item.getAttribute('value')
+    if (value === box.id) {
+      item.classList.add('actived')
+    } else {
+      box.actived = false
+      item.classList.remove('actived')
+    }
+  })
+
   if (activeID.value === box.id) {
     activeID.value = ''
     box.actived = false
@@ -87,12 +100,9 @@ function selectBox(box) {
   selectBoxStore.setSelectBox(box)
 }
 
-watch(() => activeID.value, (newValue, oldValue) => {
-  // 当activeID的值发生变化时，执行相应的逻辑
-  if (activeID.value !== '') {
-
-  }
-})
+// watchEffect(() => {
+//   activeID.value = selectBoxStore.selectedBox && selectBoxStore.selectedBox.actived
+// })
 
 </script>
 
@@ -104,9 +114,8 @@ watch(() => activeID.value, (newValue, oldValue) => {
 
       <div v-for="(item, index) in layoutData" :key="index" :class="{ 'flex-col': layoutModel === 'column' }" w-full
         h-full flex justify-center items-center m-3>
-        <div v-for="(innerBox, innerIndex) in item.innerBoxs" :key="innerIndex"
-          :class="{ 'innerBox': true, 'actived': activeID === innerBox.id }" flex-1 w-full h-full m-3
-          @click="selectBox(innerBox)">
+        <div v-for="(innerBox, innerIndex) in item.innerBoxs" :key="innerIndex" :class="{ 'innerBox': true }"
+          :value="innerBox.id" flex-1 w-full h-full m-3 @click="selectBox(innerBox)">
           <div class="innerBox-content" w-full h-full :id="innerBox.id">{{ innerBox.name }}</div>
         </div>
       </div>
@@ -125,6 +134,10 @@ watch(() => activeID.value, (newValue, oldValue) => {
 
 .innerBox:hover {
   border: 3px dashed #76c1f3;
+}
+
+.innerBox:active {
+  border: 3px dashed #2EC23C;
 }
 
 .actived {

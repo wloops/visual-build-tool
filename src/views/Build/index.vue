@@ -19,9 +19,11 @@ const callback = (data) => {
 </script>
 
 <template>
-  <div class="build-main" w-full>
+  <div class="build-main" w-full h-full>
     <!-- 全局操作栏 -->
-    <div class="build-header" w-full>全局操作栏</div>
+    <div class="build-header" w-full h-full>
+      <global-action-bar></global-action-bar>
+    </div>
     <!-- 构建区域 -->
     <div class="build-container" flex w-full h-full justify-between items-center>
       <!-- 物料区 构建区域左侧 -->
