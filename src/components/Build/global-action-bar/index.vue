@@ -27,7 +27,7 @@ const clearSelectBox = () => {
           <icon-close />
         </template>
         <!-- Use the default slot to avoid extra spaces -->
-        <template #default>取消选择</template>
+        <template #default>取消选中</template>
       </a-button>
     </div>
     <div class="global-action-bar-right" flex justify-end items-center></div>

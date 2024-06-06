@@ -92,6 +92,11 @@ function selectBox(box) {
     activeID.value = ''
     box.actived = false
     console.log('取消选择box：', box);
+    // 清除选中样式
+    const activedBoxs = document.querySelectorAll('.actived')
+    activedBoxs.forEach(box => {
+      box.classList.remove('actived')
+    })
   } else {
     box.actived = true
     activeID.value = box.id
