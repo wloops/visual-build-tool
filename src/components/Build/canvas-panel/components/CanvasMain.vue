@@ -121,7 +121,9 @@ function selectBox(box) {
         h-full flex justify-center items-center m-3>
         <div v-for="(innerBox, innerIndex) in item.innerBoxs" :key="innerIndex" :class="{ 'innerBox': true }"
           :value="innerBox.id" flex-1 w-full h-full m-3 @click="selectBox(innerBox)">
-          <div class="innerBox-content" w-full h-full :id="innerBox.id">{{ innerBox.name }}</div>
+          <div class="innerBox-content" w-full h-full>
+            <CommonChart :layoutData="innerBox"></CommonChart>
+          </div>
         </div>
       </div>
     </div>
