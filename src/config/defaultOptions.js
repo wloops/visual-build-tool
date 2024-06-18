@@ -2,6 +2,8 @@
 
 const lineOptions = [
   {
+    optionName: 'Line Chart1',
+    optionID: 'line-chart1',
     xAxis: {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']

@@ -1,9 +1,15 @@
 <script setup>
+import SelectModel from './SelectModel.vue'
+
 import numberSixFill from '~icons/ph/number-six-fill'
 import IconBar from '~icons/material-symbols/bar-chart-4-bars-rounded'
 import IconLine from '~icons/streamline/graph-solid'
 import IconPie from '~icons/ic/baseline-pie-chart'
 import { useSelectBoxStore } from '@/stores/selectBox'
+import { useMaterialStore } from '@/stores/material'
+import { nextTick } from 'vue'
+
+const materialStore = useMaterialStore()
 const selectBoxStore = useSelectBoxStore()
 const isSelected = ref(false)
 
@@ -18,6 +24,7 @@ const pluginList = ref([
     children: [
       {
         name: '数值动画',
+        type: 'number-animation',
         icon: numberSixFill
       }
     ]
@@ -28,27 +35,54 @@ const pluginList = ref([
     children: [
       {
         name: '柱状图',
-        id: 'bar',
+        type: 'bar',
         icon: IconBar,
       },
       {
         name: '折线图',
-        id: 'line',
+        type: 'line',
         icon: IconLine
       },
       {
         name: '饼图',
-        id: 'pie',
+        type: 'pie',
         icon: IconPie
       }
     ]
   }
 ])
 
+const selectModel = ref(null)
 const openPlugin = (plugin) => {
   console.log('绑定块:', selectBoxStore.selectedBox)
   console.log('openPlugin:', plugin)
+  plugin = { ...plugin, ...selectBoxStore.selectedBox }
+  selectModel.value.show(plugin)
 }
+
+const charts = ref([])
+const storeCharts = (chart) => {
+  console.log('storeCharts:', chart)
+  charts.value = [...chart]
+}
+
+watch(
+  () => materialStore.layoutParams,
+  (newVal) => {
+    console.log('selectModel:watch*', newVal)
+    nextTick(() => {
+      if (charts.value.length > 0) {
+        charts.value.forEach((chart) => {
+          chart.resize()
+        })
+      }
+    })
+  },
+  {
+    deep: true
+  }
+)
+
 </script>
 
 <template>
@@ -69,6 +103,8 @@ const openPlugin = (plugin) => {
         </div>
       </div>
     </div>
+
+    <select-model ref="selectModel" @storeCharts="storeCharts"></select-model>
   </div>
 </template>
 

@@ -27,7 +27,7 @@ const materialList = ref([
   // },
   {
     name: '组件',
-    key: '3',
+    key: '2',
     icon: pluginLine,
     disabled: false,
     component: ChartStore,
@@ -48,14 +48,14 @@ watch(
 
       // console.log('selectedBox', document.querySelector(`#${newVal.id}`))
     }
-    // if (newVal.actived === true) {
-    //   activeKey.value = '2'
-    //   materialList.value[0].disabled = true
-    // }
-    // else {
-    //   materialList.value[0].disabled = false
-    //   activeKey.value = '1'
-    // }
+    if (newVal && newVal.actived === true) {
+      activeKey.value = '2'
+      materialList.value[0].disabled = true
+    }
+    else {
+      materialList.value[0].disabled = false
+      activeKey.value = '1'
+    }
   }
 )
 </script>

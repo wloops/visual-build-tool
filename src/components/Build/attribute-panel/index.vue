@@ -11,7 +11,7 @@ const emit = defineEmits(['callback'])
 
 
 const layoutModel = ref(materialStore.materialLayout)
-const attrs = ref([
+const layoutAttrs = [
   {
     name: '布局参数',
     key: 'layout',
@@ -22,8 +22,22 @@ const attrs = ref([
     key: 'background',
     component: BackgroundPanel,
   },
-])
+]
+const blackAttr = [
+  {
+    name: '图表参数',
+    key: 'layout1',
+    component: BackgroundPanel,
+  },
+  {
+    name: '修改源码',
+    key: 'background1',
+    component: BackgroundPanel,
+  },
+]
 
+const attrs = ref(layoutAttrs)
+let activeKey = true
 watch(
   () => materialStore.materialLayout,
   (newVal) => {
@@ -34,7 +48,15 @@ watch(
   () => selectBoxStore.selectedBox,
   (newVal) => {
     console.log('selectedBox', newVal)
-    console.log('selectedBox', document.querySelector(`#${newVal.id}`))
+    activeKey = false
+    if (newVal && newVal.actived === true) {
+      attrs.value = blackAttr
+    } else {
+      attrs.value = layoutAttrs
+    }
+    activeKey = true
+    console.log('attrs', attrs.value)
+    // console.log('selectedBox', document.querySelector(`#${newVal.id}`))
   }
 )
 
@@ -51,12 +73,16 @@ function callback(data) {
         <a-link>{{ layoutModel }}</a-link>
       </template>
 
-      <a-tabs position="top" type="line" size="large">
-        <a-tab-pane v-for="item in attrs" :key="item.key" :title="item.name">
-          <component :is="item.component" :model="layoutModel" @callback="callback" h-70vh overflow-y-auto />
-        </a-tab-pane>
+      <div>
 
-      </a-tabs>
+        <a-tabs position="top" type="line" size="large" lazy-load>
+          <a-tab-pane v-for="item in attrs" :key="item.key" :title="item.name">
+            <component :key="item.key" :is="item.component" :model="layoutModel" @callback="callback" h-70vh
+              overflow-y-auto />
+          </a-tab-pane>
+
+        </a-tabs>
+      </div>
     </a-card>
   </div>
 </template>

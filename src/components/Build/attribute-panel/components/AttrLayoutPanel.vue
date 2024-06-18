@@ -2,6 +2,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { useMaterialStore } from '@/stores/material'
 import { useSelectBoxStore } from '@/stores/selectBox'
+import { nextTick } from 'vue';
 
 const materialStore = useMaterialStore()
 const selectBoxStore = useSelectBoxStore()
@@ -60,7 +61,6 @@ const handAddInnerBoxs = async (index) => {
     direction: 'column',
   })
 
-  selectBoxStore.setSelectBox({ id: 'block-id-' + uuidv4(), actived: false })
   console.log('handAddInnerBoxs', layoutParams.value)
 }
 const handleAdd = async () => {
@@ -84,6 +84,8 @@ const setinnerBoxs = async (value, index) => {
   }
 
   await emit('callback', layoutParams.value)
+  // 存储在pinia中
+  materialStore.setLayoutParams(layoutParams.value)
 }
 
 // 初始化
@@ -97,10 +99,12 @@ const init = async () => {
     await handAddList(index)
     await setinnerBoxs(1, index)
   }
-  show.value = true
-  emit('callback', layoutParams.value)
+  await emit('callback', layoutParams.value)
   // 存储在pinia中
-  // materialStore.setLayoutParams(form)
+  materialStore.setLayoutParams(layoutParams.value)
+  nextTick(() => {
+    show.value = true
+  })
 }
 
 init()

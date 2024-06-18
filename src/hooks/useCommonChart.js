@@ -8,15 +8,16 @@ export function useCommonChart() {
     return chartOptions
   }
 
-  function init(dom, type) {
+  function init(dom, type, index) {
     // 初始化echarts实例
     let chart = echarts.init(dom)
     // 获取配置项
-    let option = getOption(type)
+    let option = getOption(type)[index]
+    console.log('option::', option)
     // 合并配置项
-    option = { ...option, series: [] }
+    // option = { ...option, series: [] }
     // 绘制图表
-    chart.setOption(option)
+    option && chart.setOption(option)
     // 图表自适应宽度
     window.addEventListener('resize', function () {
       chart.resize()

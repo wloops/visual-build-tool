@@ -7,22 +7,25 @@ const props = defineProps({
 })
 import { useCommonChart } from '@/hooks/useCommonChart'
 import { nextTick } from 'vue';
-const { chartOptions, getOption, init } = useCommonChart()
-onMounted(() => {
-  console.log('onMounted', props.layoutData)
-  const dom = document.getElementById(props.layoutData.id)
-  nextTick(() => {
-    console.log('nextTick', dom)
-    init(dom, 'line')
-  })
-  // console.log('dom#', dom)
-  // init(dom, 'line')
-})
+// const { chartOptions, getOption, init } = useCommonChart()
+// onMounted(() => {
+//   const dom = document.getElementById(props.layoutData.id)
+//   console.log('onMounted', props.layoutData)
+//   if (!dom) return
+//   console.log('black dom %:', dom)
+//   setTimeout(() => {
+
+//     nextTick(() => {
+//       const chart = init(dom, 'line')
+//       console.log('chart:', chart)
+//     })
+//   }, 1000);
+// })
 </script>
 
 <template>
-  <div>
-    <div w-30 h-30 :id="props.layoutData.id"></div>
+  <div w-full h-full>
+    <div w-full h-full :id="props.layoutData.id" :ref="props.layoutData.id"></div>
   </div>
 </template>
 
