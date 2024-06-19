@@ -40,11 +40,12 @@ const layoutParams = ref({
 const colNum = ref(3) // 默认3列
 
 
-const handAddList = () => {
+const handAddList = (ratio) => {
   layoutParams.value.key = new Date().getTime()
   layoutParams.value.list.push({
     name: `${layoutModel.value}-` + (layoutParams.value.list.length + 1),
     direction: 'column',
+    flexRatio: ratio ? ratio : 1,
     innerBoxs: [{
       name: 'block-1',
       direction: 'column',
@@ -53,6 +54,11 @@ const handAddList = () => {
 
   console.log('handAddList', layoutParams.value)
 }
+
+const handSetFlexRatio = (ratio, index) => {
+  layoutParams.value.list[index].flexRatio = ratio
+}
+
 const handAddInnerBoxs = async (index) => {
   layoutParams.value.key = new Date().getTime()
   layoutParams.value.list[index].innerBoxs.push({
@@ -67,6 +73,7 @@ const handleAdd = async (value) => {
   console.log('handleAdd')
   form.posts.push({
     id: form.posts.length + 1,
+    flexRatio: 1,
     value: value ? value : 1
   })
 }
@@ -108,7 +115,7 @@ const init = async () => {
   for (let index = 0; index < colNum.value; index++) {
     console.log('index::', index)
     await handleAdd()
-    await handAddList(index)
+    await handAddList()
     await setinnerBoxs(1, index)
   }
   await emit('callback', layoutParams.value)
@@ -126,12 +133,12 @@ const setPosts = (value) => {
   init()
 }
 
-const setLayoutLabel = (model) => {
+const setLayoutLabel = (model, i) => {
   switch (model) {
     case 'column':
-      return '列数'
+      return i === 1 ? '列数' : '宽度'
     case 'row':
-      return '行数'
+      return i === 1 ? '行数' : '高度'
     default:
       return '栅格数'
   }
@@ -142,12 +149,16 @@ const setLayoutLabel = (model) => {
 <template>
   <div>
     <a-form :model="form" layout="vertical" v-if="show">
-      <a-form-item field="colNum" :label="setLayoutLabel(model)">
+      <a-form-item field="colNum" :label="setLayoutLabel(model, 1)">
         <a-input-number placeholder="Please Enter" :default-value="colNum" mode="button" class="input-demo"
           @change="setPosts" :min="2" :max="5" />
       </a-form-item>
       <a-form-item v-for="(post, index) of form.posts" :field="`posts[${index}].value`" :label="`第${index + 1}列布局参数`"
         :key="index">
+        <a-form-item :field="`posts[${index}].flexRatio`" :label="setLayoutLabel(model, 2)" mr-2>
+          <a-input-number placeholder="Please Enter" :default-value="post.value" mode="button" class="input-demo"
+            :min="1" @change="handSetFlexRatio($event, index)"></a-input-number>
+        </a-form-item>
         <a-form-item :field="`posts[${index}].value`" label="区块数">
           <a-input-number placeholder="Please Enter" :default-value="post.value" mode="button" class="input-demo"
             :min="1" :max="5" @change="setinnerBoxs($event, index)" />
