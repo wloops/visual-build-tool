@@ -18,12 +18,12 @@ const layoutModels = ref([
     icon: IconRow,
     desc: 'This is the first layout',
   },
-  {
-    name: '网格式布局',
-    id: 'grid',
-    icon: IconGrid,
-    desc: 'This is the first layout',
-  },
+  // {
+  //   name: '网格式布局',
+  //   id: 'grid',
+  //   icon: IconGrid,
+  //   desc: 'This is the first layout',
+  // },
 ])
 
 const layout = ref('column')
