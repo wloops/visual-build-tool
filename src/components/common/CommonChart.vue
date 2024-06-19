@@ -25,7 +25,7 @@ import { nextTick } from 'vue';
 
 <template>
   <div w-full h-full>
-    <div w-full h-full :id="props.layoutData.id" :ref="props.layoutData.id"></div>
+    <div w-full h-full :id="props.layoutData.id"></div>
   </div>
 </template>
 

@@ -67,7 +67,7 @@ const storeCharts = (chart) => {
 }
 
 watch(
-  () => materialStore.layoutParams,
+  () => materialStore.layoutParams.list,
   (newVal) => {
     console.log('selectModel:watch*', newVal)
     nextTick(() => {

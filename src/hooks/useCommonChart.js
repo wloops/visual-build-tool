@@ -10,9 +10,9 @@ export function useCommonChart() {
 
   function init(dom, type, index) {
     // 初始化echarts实例
-    let chart = echarts.init(dom)
+    const chart = echarts.init(dom)
     // 获取配置项
-    let option = getOption(type)[index]
+    const option = getOption(type)[index]
     console.log('option::', option)
     // 合并配置项
     // option = { ...option, series: [] }

@@ -1,6 +1,7 @@
 <script setup>
 import { useMaterialStore } from '@/stores/material'
 import { useSelectBoxStore } from '@/stores/selectBox'
+import { ref } from 'vue';
 
 const materialStore = useMaterialStore()
 const selectBoxStore = useSelectBoxStore()
@@ -22,6 +23,7 @@ watch(
     layoutModel.value = newVal
   }
 )
+
 watch(
   () => props.canvasLayoutData.list,
   (newValue, oldValue) => {
@@ -71,6 +73,7 @@ function selectBox(box) {
   box.actived = true
   console.log('选择了box：', box)
   console.log('box:', document.getElementById(box.id))
+
   selectBoxStore.setSelectBox(box)
 }
 
@@ -85,11 +88,11 @@ function selectBox(box) {
       'column-wrap': layoutModel === 'column',
       'row-wrap': layoutModel === 'row',
       'grid-wrap': layoutModel === 'grid'
-    }" w-full h-full pl-3 pr-3 pb-3>
+    }" w-full h-full pr-3 pb-3>
       <div v-for="(item, index) in layoutData" :key="index" :class="{ 'flex-col': layoutModel === 'column' }" w-full
-        h-full flex justify-center items-center m-3>
+        h-full flex justify-center items-center m-2>
         <div v-for="(innerBox, innerIndex) in item.innerBoxs" :key="innerIndex" :class="{ innerBox: true }"
-          :value="innerBox.id" flex-1 w-full h-full m-3 @click="selectBox(innerBox)">
+          :value="innerBox.id" flex-1 w-full h-full m-1 @click="selectBox(innerBox)">
           <div class="innerBox-content" w-full h-full>
             <CommonChart :layoutData="innerBox"></CommonChart>
           </div>
@@ -108,15 +111,15 @@ function selectBox(box) {
 }
 
 .innerBox:hover {
-  border: 3px dashed #76c1f3;
+  border: 2px dashed #2ec23c;
 }
 
 .innerBox:active {
-  border: 3px dashed #2ec23c;
+  border: 2px dashed #2ec23c;
 }
 
 .actived {
-  border: 3px dashed #2ec23c;
+  border: 2px dashed #2ec23c;
 }
 
 .column-wrap {

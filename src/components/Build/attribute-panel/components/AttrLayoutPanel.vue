@@ -63,11 +63,11 @@ const handAddInnerBoxs = async (index) => {
 
   console.log('handAddInnerBoxs', layoutParams.value)
 }
-const handleAdd = async () => {
+const handleAdd = async (value) => {
   console.log('handleAdd')
   form.posts.push({
     id: form.posts.length + 1,
-    value: 1
+    value: value ? value : 1
   })
 }
 
@@ -80,7 +80,7 @@ const setinnerBoxs = async (value, index) => {
   // 先清空
   layoutParams.value.list[index].innerBoxs = []
   for (let i = 0; i < value; i++) {
-    handAddInnerBoxs(index)
+    await handAddInnerBoxs(index)
   }
 
   await emit('callback', layoutParams.value)
@@ -91,6 +91,18 @@ const setinnerBoxs = async (value, index) => {
 // 初始化
 const show = ref(false)
 const init = async () => {
+  if (Object.values(materialStore.layoutParams).length > 0 && materialStore.layoutParams.list.length === colNum.value) {
+    layoutParams.value = materialStore.layoutParams
+    console.log('init layoutParams.value', layoutParams.value)
+    nextTick(() => {
+      form.posts = []
+      layoutParams.value.list.forEach((item, index) => {
+        handleAdd(item.innerBoxs.length)
+      })
+      show.value = true
+    })
+    return
+  }
   form.posts = []
   layoutParams.value.list = []
   for (let index = 0; index < colNum.value; index++) {
