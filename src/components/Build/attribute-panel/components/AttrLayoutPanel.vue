@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useMaterialStore } from '@/stores/material'
 import { useSelectBoxStore } from '@/stores/selectBox'
 import { nextTick } from 'vue';
+import OtherSetting from './OtherSetting.vue';
 
 const materialStore = useMaterialStore()
 const selectBoxStore = useSelectBoxStore()
@@ -58,12 +59,16 @@ const handAddList = (ratio) => {
 const handSetFlexRatio = (ratio, index) => {
   layoutParams.value.list[index].flexRatio = ratio
 }
+const handSetFlexRatio2 = (ratio, index, innerIndex) => {
+  layoutParams.value.list[index].innerBoxs[innerIndex].flexRatio = ratio
+}
 
 const handAddInnerBoxs = async (index) => {
   layoutParams.value.key = new Date().getTime()
   layoutParams.value.list[index].innerBoxs.push({
     id: 'block-id-' + uuidv4(),
     name: 'block-' + (layoutParams.value.list[index].innerBoxs.length + 1),
+    flexRatio: 1,
     direction: 'column',
   })
 
@@ -83,6 +88,7 @@ const handleDelete = (index) => {
 }
 
 const setinnerBoxs = async (value, index) => {
+
   console.log('setinnerBoxs', value, index)
   // 先清空
   layoutParams.value.list[index].innerBoxs = []
@@ -144,30 +150,69 @@ const setLayoutLabel = (model, i) => {
   }
 }
 
+const otherSetting = ref(null)
+const openOtherSetting = (index) => {
+  const data = {
+    model: props.model,
+    index,
+    colNum: layoutParams.value.list[index].innerBoxs.length,
+  }
+  console.log('openOtherSetting', data)
+  otherSetting.value.open(data)
+}
+const getPercent = (index) => {
+  // 根据flex比例算百分比,保留两位小数
+  const value = layoutParams.value.list[index].flexRatio
+  const ratioList = layoutParams.value.list.map((item) => item.flexRatio)
+  return ((value / ratioList.reduce((acc, cur) => acc + cur, 0)) * 100).toFixed(2) + '%'
+}
+
+
 </script>
 
 <template>
-  <div>
+  <div pl-2 pr-2 id="parentNode">
     <a-form :model="form" layout="vertical" v-if="show">
       <a-form-item field="colNum" :label="setLayoutLabel(model, 1)">
         <a-input-number placeholder="Please Enter" :default-value="colNum" mode="button" class="input-demo"
           @change="setPosts" :min="2" :max="5" />
       </a-form-item>
-      <a-form-item v-for="(post, index) of form.posts" :field="`posts[${index}].value`" :label="`第${index + 1}列布局参数`"
-        :key="index">
-        <a-form-item :field="`posts[${index}].flexRatio`" :label="setLayoutLabel(model, 2)" mr-2>
-          <a-input-number placeholder="Please Enter" :default-value="post.value" mode="button" class="input-demo"
-            :min="1" @change="handSetFlexRatio($event, index)"></a-input-number>
+      <div v-for="(post, index) of form.posts">
+        <!-- <a-form-item :field="`posts[${index}].value`" :label="`第${index + 1}列布局参数`" :key="index">
+        </a-form-item> -->
+        <h4>{{ `第${index + 1}列布局参数` }}</h4>
+        <a-form-item>
+
+          <a-form-item :label="setLayoutLabel(model, 2)" mr-2>
+            <a-input-number placeholder="Please Enter" :default-value="post.value" mode="button" class="input-demo"
+              :min="1" @change="handSetFlexRatio($event, index)"></a-input-number>
+            <template #extra>
+              <div>{{ getPercent(index) }}</div>
+            </template>
+          </a-form-item>
+          <!-- <a-form-item label="边框" mr-2>
+            <a-input-number placeholder="Please Enter" :default-value="post.value" mode="button" class="input-demo"
+              :min="1" @change="handSetFlexRatio($event, index)"></a-input-number>
+            <template #extra>
+              <div>{{ 1 }}px</div>
+            </template>
+          </a-form-item> -->
         </a-form-item>
-        <a-form-item :field="`posts[${index}].value`" label="区块数">
+        <a-form-item label="区块数">
           <a-input-number placeholder="Please Enter" :default-value="post.value" mode="button" class="input-demo"
             :min="1" :max="5" @change="setinnerBoxs($event, index)" />
-          <!-- <a-button @click="handleDelete(index)" :style="{ marginLeft: '10px' }">Delete</a-button> -->
+          <a-button @click="openOtherSetting(index)" :style="{ marginLeft: '10px' }">块设置</a-button>
         </a-form-item>
-      </a-form-item>
+      </div>
     </a-form>
+
+    <OtherSetting ref="otherSetting" @callback="handSetFlexRatio2"></OtherSetting>
   </div>
 </template>
 
 
-<style scoped></style>
+<style scoped>
+.arco-form-item {
+  margin-bottom: 5px;
+}
+</style>

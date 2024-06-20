@@ -91,8 +91,8 @@ function selectBox(box) {
     }" w-full h-full pr-3 pb-3>
       <div v-for="(item, index) in layoutData" :key="index" :class="{ 'flex-col': layoutModel === 'column' }" w-full
         h-full flex justify-center items-center m-2 :style="`flex: ${item.flexRatio};`">
-        <div v-for="(innerBox, innerIndex) in item.innerBoxs" :key="innerIndex" class="innerBox" :value="innerBox.id"
-          w-full h-full m-1 @click="selectBox(innerBox)">
+        <div v-for="(innerBox, innerIndex) in item.innerBoxs" :key="innerIndex" :style="`flex: ${innerBox.flexRatio};`"
+          class="innerBox" :value="innerBox.id" w-full h-full m-1 @click="selectBox(innerBox)">
           <div class="innerBox-content" w-full h-full>
             <CommonChart :layoutData="innerBox"></CommonChart>
           </div>
