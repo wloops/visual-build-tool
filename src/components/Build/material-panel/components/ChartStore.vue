@@ -91,7 +91,7 @@ watch(
       <a-alert type="warning">请先选中一个块</a-alert>
     </a-col>
     <a-col :span="23" v-else>
-      <a-alert type="success">{{ `已选中:${selectBoxStore.selectedBox.name}` }}</a-alert>
+      <a-alert type="success">{{ `已选中:` }}<br />{{ selectBoxStore.selectedBox.id }}</a-alert>
     </a-col>
 
     <div :class="isSelected ? '' : 'not-clickable'" v-for="plugin in pluginList" :key="plugin.name">

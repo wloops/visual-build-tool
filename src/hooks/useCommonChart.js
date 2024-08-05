@@ -17,7 +17,7 @@ export function useCommonChart() {
     // 合并配置项
     // option = { ...option, series: [] }
     // 绘制图表
-    option && chart.setOption(option)
+    option && chart.setOption(option, true)
     // 图表自适应宽度
     window.addEventListener('resize', function () {
       chart.resize()

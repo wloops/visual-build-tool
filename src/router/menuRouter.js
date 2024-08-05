@@ -8,7 +8,7 @@ export const menuRouter = [
     path: 'devtools',
     name: 'DevTools',
     meta: {
-      title: '开发工具',
+      title: '搭建工具',
       icon: markRaw(IconMaterialSymbolsCodeBlocksOutline)
     },
     redirect: { name: 'test' },
@@ -25,7 +25,7 @@ export const menuRouter = [
         path: 'build',
         name: 'build',
         meta: {
-          title: '搭建'
+          title: '监控大屏'
         },
         component: () => import('@/views/Build/index.vue')
       }

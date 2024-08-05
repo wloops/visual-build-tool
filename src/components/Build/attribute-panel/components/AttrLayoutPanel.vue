@@ -59,17 +59,45 @@ const handAddList = (ratio) => {
 const handSetFlexRatio = (ratio, index) => {
   layoutParams.value.list[index].flexRatio = ratio
 }
-const handSetFlexRatio2 = (ratio, index, innerIndex) => {
-  layoutParams.value.list[index].innerBoxs[innerIndex].flexRatio = ratio
+const handSetFlexRatio2 = (ratio, index, innerIndex, type) => {
+  if (type && type === 'direction') {
+    layoutParams.value.list[index].innerBoxs[innerIndex].direction = ratio ? 'row' : 'column'
+  } else {
+    layoutParams.value.list[index].innerBoxs[innerIndex].flexRatio = ratio
+  }
+  console.log('handSetFlexRatio2', layoutParams.value)
+}
+const handSetFlexRatio3 = (ratio, index, innerIndex, childIndex) => {
+  if (childIndex !== -1) {
+    layoutParams.value.list[index].innerBoxs[innerIndex].children[childIndex].flexRatio = ratio
+  } else {
+    if (layoutParams.value.list[index].innerBoxs[innerIndex].children.length !== ratio) {
+      layoutParams.value.list[index].innerBoxs[innerIndex].children = []
+      for (let i = 0; i < ratio; i++) {
+        layoutParams.value.list[index].innerBoxs[innerIndex].children.push({
+          id: 'block-child-id-' + uuidv4(),
+          fatherID: layoutParams.value.list[index].innerBoxs[innerIndex].id,
+          flexRatio: 1
+        })
+      }
+    }
+  }
+  console.log('handSetFlexRatio3', ratio, layoutParams.value)
 }
 
 const handAddInnerBoxs = async (index) => {
   layoutParams.value.key = new Date().getTime()
+  const f_id = 'block-id-' + uuidv4()
   layoutParams.value.list[index].innerBoxs.push({
-    id: 'block-id-' + uuidv4(),
+    id: f_id,
     name: 'block-' + (layoutParams.value.list[index].innerBoxs.length + 1),
     flexRatio: 1,
     direction: 'column',
+    children: [{
+      id: 'block-child-id-' + uuidv4(),
+      fatherID: f_id,
+      flexRatio: 1
+    }]
   })
 
   console.log('handAddInnerBoxs', layoutParams.value)
@@ -156,6 +184,7 @@ const openOtherSetting = (index) => {
     model: props.model,
     index,
     colNum: layoutParams.value.list[index].innerBoxs.length,
+    innerBoxs: layoutParams.value.list[index].innerBoxs,
   }
   console.log('openOtherSetting', data)
   otherSetting.value.open(data)
@@ -206,7 +235,7 @@ const getPercent = (index) => {
       </div>
     </a-form>
 
-    <OtherSetting ref="otherSetting" @callback="handSetFlexRatio2"></OtherSetting>
+    <OtherSetting ref="otherSetting" @callback="handSetFlexRatio2" @callback2="handSetFlexRatio3"></OtherSetting>
   </div>
 </template>
 

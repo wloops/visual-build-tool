@@ -44,8 +44,8 @@ watch(
 
 const activeID = ref('')
 function selectBox(box) {
-  const innerBoxs = document.querySelectorAll('.innerBox')
-  innerBoxs.forEach(item => {
+  const childBoxs = document.querySelectorAll('.childBox')
+  childBoxs.forEach(item => {
     console.log('item.value', item.getAttribute('value'))
     let value = item.getAttribute('value')
     if (value === box.id) {
@@ -92,9 +92,11 @@ function selectBox(box) {
       <div v-for="(item, index) in layoutData" :key="index" :class="{ 'flex-col': layoutModel === 'column' }" w-full
         h-full flex justify-center items-center m-2 :style="`flex: ${item.flexRatio};`">
         <div v-for="(innerBox, innerIndex) in item.innerBoxs" :key="innerIndex" :style="`flex: ${innerBox.flexRatio};`"
-          class="innerBox" :value="innerBox.id" w-full h-full m-1 @click="selectBox(innerBox)">
-          <div class="innerBox-content" w-full h-full>
-            <CommonChart :layoutData="innerBox"></CommonChart>
+          class="innerBox" :class="{ 'flex-col': innerBox.direction !== 'column' }" w-full h-full flex justify-center
+          items-center m-2>
+          <div class="childBox" w-full h-full v-for="(child, childIndex) in innerBox.children"
+            :style="`flex: ${child.flexRatio};`" :value="child.id" @click="selectBox(child)">
+            <CommonChart :layoutData="child"></CommonChart>
           </div>
         </div>
       </div>
@@ -104,17 +106,25 @@ function selectBox(box) {
 
 <style scoped>
 .innerBox {
-  border: 2px dashed #76c1f3;
+  border: 1px dashed #4c525558;
+  /* cursor: pointer; */
+  /* 鼠标悬浮高亮 */
+  /* transition: all 0.3s ease-in-out; */
+  /* padding: 10px; */
+}
+
+.childBox {
+  border: 1px dashed #1997eb;
   cursor: pointer;
   /* 鼠标悬浮高亮 */
   transition: all 0.3s ease-in-out;
 }
 
-.innerBox:hover {
+.childBox:hover {
   border: 2px dashed #2ec23c;
 }
 
-.innerBox:active {
+.childBox:active {
   border: 2px dashed #2ec23c;
 }
 

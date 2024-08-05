@@ -4,7 +4,7 @@
 
 <template>
   <div>
-    attr-background-panel
+
   </div>
 </template>
 
