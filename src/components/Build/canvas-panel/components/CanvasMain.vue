@@ -77,9 +77,33 @@ function selectBox(box) {
   selectBoxStore.setSelectBox(box)
 }
 
-// watchEffect(() => {
-//   activeID.value = selectBoxStore.selectedBox && selectBoxStore.selectedBox.actived
-// })
+const setSpacePercent = (ratio, index) => {
+  let ratioPlus = 0
+  const direction = layoutModel.value === 'column' ? 'width|height' : 'height|width'
+  if (index === -1) {
+    layoutData.value.forEach((item) => {
+      ratioPlus += item.flexRatio
+    })
+  } else {
+    layoutData.value[index].innerBoxs.forEach(innerBox => {
+      ratioPlus += innerBox.flexRatio
+    })
+  }
+
+  const percent = (ratio / ratioPlus * 100).toFixed(2)
+  // console.log('percent::', percent)
+  return index === -1 ? `${direction.split('|')[0]}: ${percent}%` : `${direction.split('|')[1]}: ${percent}%`
+}
+const setSpacePercent2 = (ratio, data) => {
+  let ratioPlus = 0
+  const direction = data.direction === 'column' ? 'width|height' : 'height|width'
+  data.children.forEach(innerBox => {
+    ratioPlus += innerBox.flexRatio
+  })
+  const percent = (ratio / ratioPlus * 100).toFixed(2)
+  console.log('percent::', `${direction.split('|')[0]}: ${percent}%`)
+  return `${direction.split('|')[0]}: ${percent}%`
+}
 </script>
 
 <template>
@@ -90,12 +114,12 @@ function selectBox(box) {
       'grid-wrap': layoutModel === 'grid'
     }" w-full h-full pr-3 pb-3>
       <div v-for="(item, index) in layoutData" :key="index" :class="{ 'flex-col': layoutModel === 'column' }" w-full
-        h-full flex justify-center items-center m-2 :style="`flex: ${item.flexRatio};`">
-        <div v-for="(innerBox, innerIndex) in item.innerBoxs" :key="innerIndex" :style="`flex: ${innerBox.flexRatio};`"
-          class="innerBox" :class="{ 'flex-col': innerBox.direction !== 'column' }" w-full h-full flex justify-center
-          items-center m-2>
+        h-full flex justify-center items-center m-2 :style="setSpacePercent(item.flexRatio, -1)">
+        <div v-for="(innerBox, innerIndex) in item.innerBoxs" :key="innerIndex"
+          :style="setSpacePercent(innerBox.flexRatio, index)" class="innerBox"
+          :class="{ 'flex-col': innerBox.direction !== 'column' }" w-full h-full flex justify-center items-center m-2>
           <div class="childBox" w-full h-full v-for="(child, childIndex) in innerBox.children"
-            :style="`flex: ${child.flexRatio};`" :value="child.id" @click="selectBox(child)">
+            :style="setSpacePercent2(child.flexRatio, innerBox)" :value="child.id" @click="selectBox(child)">
             <CommonChart :layoutData="child"></CommonChart>
           </div>
         </div>
