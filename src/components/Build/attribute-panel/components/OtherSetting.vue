@@ -92,16 +92,20 @@ defineExpose({
       <template #title> {{ `第${posts.index + 1}列区块设置` }} </template>
       <a-form :model="form" :style="{ width: '100%' }" layout="vertical">
         <div v-for="(item, index) in posts.innerBoxs">
-          <h4>{{ '区块' + (index + 1) }}</h4>
+          <div flex mt-5 mb-5>
+            <a-input size="small" :placeholder="'区块' + (index + 1)" v-model="item.name">
+            </a-input>
+          </div>
           <a-form-item :label="setLayoutLabel(posts.model)" validate-trigger="input">
-            <a-input-number placeholder="Please Enter" :model-value="item.flexRatio" mode="button" class="input-demo"
-              :min="1" :disabled="posts.colNum === 1" @change="handSetFlexRatio($event, posts.index, index)" />
+            <a-input-number size="small" placeholder="Please Enter" :model-value="item.flexRatio" mode="button"
+              class="input-demo" :min="1" :disabled="posts.colNum === 1"
+              @change="handSetFlexRatio($event, posts.index, index)" />
             <template #extra>
               <div>{{ getPercent(index) }}</div>
             </template>
           </a-form-item>
           <a-form-item label="子区块数">
-            <a-input-number placeholder="Please Enter" :model-value="item.children.length" mode="button"
+            <a-input-number size="small" placeholder="Please Enter" :model-value="item.children.length" mode="button"
               class="input-demo" :min="1" :max="5" @change="setinnerBoxChildren($event, posts.index, index, -1)" />
           </a-form-item>
           <div>
@@ -114,8 +118,8 @@ defineExpose({
                 </a-space>
                 <a-space v-for="(child, i) in item.children" :key="i">
                   <div w-20>{{ `子区块${i + 1}${item.direction === 'column' ? '宽度' : '高度'}` }} </div>
-                  <a-input-number placeholder="Please Enter" :model-value="child.flexRatio" class="input-demo" :min="1"
-                    :max="5" @change="setinnerBoxChildren($event, posts.index, index, i)" />
+                  <a-input-number size="small" placeholder="Please Enter" :model-value="child.flexRatio"
+                    class="input-demo" :min="1" :max="5" @change="setinnerBoxChildren($event, posts.index, index, i)" />
                 </a-space>
               </div>
             </a-form-item>

@@ -33,7 +33,7 @@ const form = reactive({
 
 const layoutParams = ref({
   key: new Date().getTime(),
-  direction: layoutModel.value,
+  // direction: layoutModel.value,
   list: []
 })
 
@@ -48,7 +48,7 @@ const handAddList = (ratio) => {
     direction: 'column',
     flexRatio: ratio ? ratio : 1,
     innerBoxs: [{
-      name: 'block-1',
+      name: '',
       direction: 'column',
     }]
   })
@@ -90,7 +90,7 @@ const handAddInnerBoxs = async (index) => {
   const f_id = 'block-id-' + uuidv4()
   layoutParams.value.list[index].innerBoxs.push({
     id: f_id,
-    name: 'block-' + (layoutParams.value.list[index].innerBoxs.length + 1),
+    name: '第' + (index + 1) + setLayoutLabel(layoutModel.value, 1) + '区块' + (layoutParams.value.list[index].innerBoxs.length + 1),
     flexRatio: 1,
     direction: 'column',
     children: [{
@@ -170,9 +170,9 @@ const setPosts = (value) => {
 const setLayoutLabel = (model, i) => {
   switch (model) {
     case 'column':
-      return i === 1 ? '列数' : '宽度'
+      return i === 1 ? '列' : '宽度'
     case 'row':
-      return i === 1 ? '行数' : '高度'
+      return i === 1 ? '行' : '高度'
     default:
       return '栅格数'
   }
@@ -196,20 +196,25 @@ const getPercent = (index) => {
   return ((value / ratioList.reduce((acc, cur) => acc + cur, 0)) * 100).toFixed(2) + '%'
 }
 
+watchEffect(() => {
+  // 存储在pinia中
+  materialStore.setLayoutParams(layoutParams.value)
+  console.log('watchEffect', layoutParams.value)
+})
 
 </script>
 
 <template>
   <div pl-2 pr-2 id="parentNode">
     <a-form :model="form" layout="vertical" v-if="show">
-      <a-form-item field="colNum" :label="setLayoutLabel(model, 1)">
+      <a-form-item field="colNum" :label="setLayoutLabel(model, 1) + '数'">
         <a-input-number placeholder="Please Enter" :default-value="colNum" mode="button" class="input-demo"
           @change="setPosts" :min="2" :max="5" />
       </a-form-item>
       <div v-for="(post, index) of form.posts">
         <!-- <a-form-item :field="`posts[${index}].value`" :label="`第${index + 1}列布局参数`" :key="index">
         </a-form-item> -->
-        <h4>{{ `第${index + 1}列布局参数` }}</h4>
+        <h4>{{ `第${index + 1}${setLayoutLabel(model, 1)}布局参数` }}</h4>
         <a-form-item>
 
           <a-form-item :label="setLayoutLabel(model, 2)" mr-2>
