@@ -53,17 +53,39 @@ const pluginList = ref([
 ])
 
 const selectModel = ref(null)
-const openPlugin = (plugin) => {
+const openPlugin = (plugin, f_plugin) => {
   console.log('绑定块:', selectBoxStore.selectedBox)
   console.log('openPlugin:', plugin)
-  plugin = { ...plugin, ...selectBoxStore.selectedBox }
+  plugin = { ...plugin, f_type_id: f_plugin.id, ...selectBoxStore.selectedBox }
   selectModel.value.show(plugin)
 }
 
 const charts = ref([])
-const storeCharts = (chart) => {
-  console.log('storeCharts:', chart)
+const storeCharts = (chart, defineChart) => {
+  console.log('storeCharts:', chart, defineChart)
   charts.value = [...chart]
+
+  // 根据id找到layoutParams(多级)中对应的对象,添加type
+  let type = defineChart.type
+  if (defineChart.f_type_id === 'chart') {
+    type = `${defineChart.f_type_id}|${defineChart.type}`
+  }
+  // 遍历查找 layoutParams.list->innerBoxs->children 的每一项的id是否和defineChart.id相同
+  for (let i = 0; i < materialStore.layoutParams.list.length; i++) {
+    const innerBoxs = materialStore.layoutParams.list[i].innerBoxs
+    for (let j = 0; j < innerBoxs.length; j++) {
+      const children = innerBoxs[j].children
+      for (let k = 0; k < children.length; k++) {
+        if (children[k].id === defineChart.id) {
+          children[k].type = type
+          break
+        }
+      }
+    }
+  }
+
+
+  console.log('layoutParams::', materialStore.layoutParams)
 }
 
 watch(
@@ -97,7 +119,7 @@ watch(
     <div :class="isSelected ? '' : 'not-clickable'" v-for="plugin in pluginList" :key="plugin.name">
       <h3>{{ plugin.name }}</h3>
       <div w-full flex flex-wrap justify-start items-center>
-        <div v-for="child in plugin.children" :key="child.name" class="plugin-item" @click="openPlugin(child)">
+        <div v-for="child in plugin.children" :key="child.name" class="plugin-item" @click="openPlugin(child, plugin)">
           <component v-if="child.icon" :is="child.icon" class="text-24px"></component>
           <div text-14px mt-2>{{ child.name }}</div>
         </div>

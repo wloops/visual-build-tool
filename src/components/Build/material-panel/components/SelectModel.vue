@@ -16,7 +16,7 @@ const handleOk = () => {
   const dom = document.getElementById(defineChart.value.id)
   const chart = init(dom, defineChart.value.type, radioValue.value)
   charts.value.push(chart)
-  emit('storeCharts', charts.value)
+  emit('storeCharts', charts.value, defineChart.value)
   visible.value = false;
 };
 const handleCancel = () => {
