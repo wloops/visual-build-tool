@@ -117,8 +117,11 @@ const setSpacePercent2 = (ratio, data) => {
         h-full flex justify-center items-center m-2 :style="setSpacePercent(item.flexRatio, -1)">
         <div v-for="(innerBox, innerIndex) in item.innerBoxs" :key="innerIndex"
           :style="setSpacePercent(innerBox.flexRatio, index)" class="innerBox"
-          :class="{ 'flex-col': innerBox.direction !== 'column' }" w-full h-full flex justify-center items-center m-2>
-          <div class="childBox" w-full h-full v-for="(child, childIndex) in innerBox.children"
+          :class="{ 'flex-col': innerBox.direction !== 'column' }" w-full h-full flex justify-center items-center m-2
+          relative>
+          <div class="text-lg absolute top-0">{{ innerBox.name
+            }}</div>
+          <div class=" childBox" w-full h-full v-for="(child, childIndex) in innerBox.children"
             :style="setSpacePercent2(child.flexRatio, innerBox)" :value="child.id" @click="selectBox(child)">
             <CommonChart :layoutData="child"></CommonChart>
           </div>
