@@ -1,13 +1,5 @@
 <script setup>
 import autofit from 'autofit.js'
-// onMounted(() => {
-//   autofit.init({
-//     dh: 1080,
-//     dw: 1920,
-//     el: '#canvas-panel-main',
-//     resize: true,
-//   })
-// })
 const canvasLayoutData = ref({})
 const updateKey = ref(false)
 const callback = (data) => {
@@ -16,6 +8,14 @@ const callback = (data) => {
   updateKey.value = false
   updateKey.value = true
 }
+onMounted(() => {
+  autofit.init({
+    dh: 1080,
+    dw: 1920,
+    el: '#canvas-panel-main',
+    resize: true,
+  })
+})
 </script>
 
 <template>
@@ -50,12 +50,12 @@ const callback = (data) => {
 }
 
 .build-header {
-  height: 35px;
+  height: 40px;
 }
 
 .build-container {
   width: 100%;
-  height: calc(100% - 35px);
+  height: calc(100% - 40px);
   display: flex;
 
   .material-panel {

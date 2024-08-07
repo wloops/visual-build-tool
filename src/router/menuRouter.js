@@ -5,8 +5,8 @@ import IconMaterialSymbolsCodeBlocksOutline from '~icons/material-symbols/code-b
 
 export const menuRouter = [
   {
-    path: 'devtools',
-    name: 'DevTools',
+    path: 'buildTools',
+    name: 'BuildTools',
     meta: {
       title: '搭建工具',
       icon: markRaw(IconMaterialSymbolsCodeBlocksOutline)
@@ -22,12 +22,12 @@ export const menuRouter = [
         component: () => import('@/views/test.vue')
       },
       {
-        path: 'build',
-        name: 'build',
+        path: 'monitor',
+        name: 'monitor',
         meta: {
           title: '监控大屏'
         },
-        component: () => import('@/views/Build/index.vue')
+        component: () => import('@/views/Monitor/index.vue')
       }
     ]
   }

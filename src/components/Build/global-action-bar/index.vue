@@ -1,6 +1,9 @@
 <script setup>
-import { IconClose, IconDelete } from '@arco-design/web-vue/es/icon';
+import { IconClose,IconToBottom,IconDelete } from '@arco-design/web-vue/es/icon';
 import { useSelectBoxStore } from '@/stores/selectBox'
+import { useMaterialStore } from '@/stores/material'
+
+const materialStore = useMaterialStore()
 const selectBoxStore = useSelectBoxStore()
 const isSelected = ref(false)
 
@@ -16,6 +19,11 @@ const clearSelectBox = () => {
     box.classList.remove('actived')
   })
 }
+
+const downloadJSON = () => {
+  console.log('downloadJSON-materialLayout::', materialStore.materialLayout)
+  console.log('downloadJSON-layoutParams::', materialStore.layoutParams.list)
+}
 </script>
 
 <template>
@@ -30,7 +38,13 @@ const clearSelectBox = () => {
         <template #default>取消选中</template>
       </a-button>
     </div>
-    <div class="global-action-bar-right" flex justify-end items-center></div>
+    <div class="global-action-bar-right" flex justify-end items-center mt-5 p-5>
+      <a-button type="primary" size="mini" @click="downloadJSON">
+      <template #icon>
+        <icon-to-bottom />
+      </template>
+    </a-button>
+    </div>
   </div>
 </template>
 
