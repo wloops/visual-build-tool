@@ -19,7 +19,7 @@ importers:
         version: 2.1.7(vue@3.4.27)
       pinia-plugin-persistedstate:
         specifier: ^2.4.0
-        version: 2.4.0(pinia@2.1.7)
+        version: 2.4.0(pinia@2.1.7(vue@3.4.27))
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
@@ -90,30 +90,42 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
+      echarts-liquidfill:
+        specifier: ^3.1.0
+        version: 3.1.0(echarts@5.5.0)
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
       eslint-plugin-vue:
         specifier: ^9.26.0
         version: 9.26.0(eslint@8.57.0)
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
       prettier:
         specifier: ^2.8.8
         version: 2.8.8
       unocss:
         specifier: ^0.45.30
-        version: 0.45.30(vite@3.2.10)
+        version: 0.45.30(rollup@2.79.1)(vite@3.2.10)
       unplugin-auto-import:
         specifier: ^0.11.5
-        version: 0.11.5(@vueuse/core@9.13.0)
+        version: 0.11.5(@vueuse/core@9.13.0(vue@3.4.27))(rollup@2.79.1)
       unplugin-icons:
         specifier: ^0.14.15
-        version: 0.14.15
+        version: 0.14.15(@vue/compiler-sfc@3.4.27)
       unplugin-vue-components:
         specifier: ^0.22.12
-        version: 0.22.12(vue@3.4.27)
+        version: 0.22.12(@babel/parser@7.24.6)(rollup@2.79.1)(vue@3.4.27)
       vite:
         specifier: ^3.2.10
         version: 3.2.10
+      vue3-marquee:
+        specifier: ^4.2.1
+        version: 4.2.1(vue@3.4.27)
+      vue3-seamless-scroll:
+        specifier: ^2.0.1
+        version: 2.0.1
 
 packages:
 
@@ -565,6 +577,11 @@ packages:
   duplexer@0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
 
+  echarts-liquidfill@3.1.0:
+    resolution: {integrity: sha512-5Dlqs/jTsdTUAsd+K5LPLLTgrbbNORUSBQyk8PSy1Mg2zgHDWm83FmvA4s0ooNepCJojFYRITTQ4GU1UUSKYLw==}
+    peerDependencies:
+      echarts: ^5.0.1
+
   echarts@5.5.0:
     resolution: {integrity: sha512-rNYnNCzqDAPCr4m/fqyUFv7fD9qIsd50S6GDFgO1DxZhncCsNsG7IfUlAlvZe5oSEQxtsjnHiUuppzccry93Xw==}
 
@@ -947,6 +964,9 @@ packages:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
 
+  lodash-es@4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
 
@@ -1228,6 +1248,10 @@ packages:
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
 
+  throttle-debounce@5.0.0:
+    resolution: {integrity: sha512-2iQTSgkkc1Zyk0MeVrt/3BvuOXYPl/R8Z0U2xxo9rjwNciaHDG3R+Lm6dh4EeUci49DanvBnuqI6jshoQQRGEg==}
+    engines: {node: '>=12.22'}
+
   to-fast-properties@2.0.0:
     resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}
     engines: {node: '>=4'}
@@ -1372,6 +1396,15 @@ packages:
     resolution: {integrity: sha512-hKQJ1vDAZ5LVkKEnHhmm1f9pMiWIBNGF5AwU67PdH7TyXCj/a4hTccuUuYCAMgJK6rO/NVYtQIEN3yL8CECa7Q==}
     peerDependencies:
       vue: ^3.2.0
+
+  vue3-marquee@4.2.1:
+    resolution: {integrity: sha512-3nJs2ZNnEre9qZapeRcJ8WUrhE7Z8dm9pH7jR5TYBLmGre46w6vLCht6kcNruOO/c50wuYCx73wQCaXJ0Y/Kvg==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      vue: ^3.2
+
+  vue3-seamless-scroll@2.0.1:
+    resolution: {integrity: sha512-mI3BaDU3pjcPUhVSw3/xNKdfPBDABTi/OdZaZqKysx4cSdNfGRbVvGNDzzptBbJ5S7imv5T55l6x/SqgnxKreg==}
 
   vue@3.4.27:
     resolution: {integrity: sha512-8s/56uK6r01r1icG/aEOHqyMVxd1bkYcSe9j8HcKtr/xTOFWvnzIVTehNW+5Yt89f+DLBe4A569pnZLS5HzAMA==}
@@ -1587,11 +1620,13 @@ snapshots:
 
   '@polka/url@1.0.0-next.25': {}
 
-  '@rollup/pluginutils@5.1.0':
+  '@rollup/pluginutils@5.1.0(rollup@2.79.1)':
     dependencies:
       '@types/estree': 1.0.5
       estree-walker: 2.0.2
       picomatch: 2.3.1
+    optionalDependencies:
+      rollup: 2.79.1
 
   '@rushstack/eslint-patch@1.10.3': {}
 
@@ -1601,19 +1636,19 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@unocss/astro@0.45.30(vite@3.2.10)':
+  '@unocss/astro@0.45.30(rollup@2.79.1)(vite@3.2.10)':
     dependencies:
       '@unocss/core': 0.45.30
       '@unocss/reset': 0.45.30
-      '@unocss/vite': 0.45.30(vite@3.2.10)
+      '@unocss/vite': 0.45.30(rollup@2.79.1)(vite@3.2.10)
     transitivePeerDependencies:
       - rollup
       - vite
 
-  '@unocss/cli@0.45.30':
+  '@unocss/cli@0.45.30(rollup@2.79.1)':
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@rollup/pluginutils': 5.1.0
+      '@rollup/pluginutils': 5.1.0(rollup@2.79.1)
       '@unocss/config': 0.45.30
       '@unocss/core': 0.45.30
       '@unocss/preset-uno': 0.45.30
@@ -1701,10 +1736,10 @@ snapshots:
     dependencies:
       '@unocss/core': 0.45.30
 
-  '@unocss/vite@0.45.30(vite@3.2.10)':
+  '@unocss/vite@0.45.30(rollup@2.79.1)(vite@3.2.10)':
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@rollup/pluginutils': 5.1.0
+      '@rollup/pluginutils': 5.1.0(rollup@2.79.1)
       '@unocss/config': 0.45.30
       '@unocss/core': 0.45.30
       '@unocss/inspector': 0.45.30
@@ -1756,7 +1791,7 @@ snapshots:
     dependencies:
       eslint: 8.57.0
       eslint-config-prettier: 8.10.0(eslint@8.57.0)
-      eslint-plugin-prettier: 4.2.1(eslint-config-prettier@8.10.0)(eslint@8.57.0)(prettier@2.8.8)
+      eslint-plugin-prettier: 4.2.1(eslint-config-prettier@8.10.0(eslint@8.57.0))(eslint@8.57.0)(prettier@2.8.8)
       prettier: 2.8.8
 
   '@vue/reactivity@3.4.27':
@@ -1942,6 +1977,10 @@ snapshots:
 
   duplexer@0.1.2: {}
 
+  echarts-liquidfill@3.1.0(echarts@5.5.0):
+    dependencies:
+      echarts: 5.5.0
+
   echarts@5.5.0:
     dependencies:
       tslib: 2.3.0
@@ -2042,12 +2081,13 @@ snapshots:
     dependencies:
       eslint: 8.57.0
 
-  eslint-plugin-prettier@4.2.1(eslint-config-prettier@8.10.0)(eslint@8.57.0)(prettier@2.8.8):
+  eslint-plugin-prettier@4.2.1(eslint-config-prettier@8.10.0(eslint@8.57.0))(eslint@8.57.0)(prettier@2.8.8):
     dependencies:
       eslint: 8.57.0
-      eslint-config-prettier: 8.10.0(eslint@8.57.0)
       prettier: 2.8.8
       prettier-linter-helpers: 1.0.0
+    optionalDependencies:
+      eslint-config-prettier: 8.10.0(eslint@8.57.0)
 
   eslint-plugin-vue@9.26.0(eslint@8.57.0):
     dependencies:
@@ -2304,6 +2344,8 @@ snapshots:
     dependencies:
       p-locate: 5.0.0
 
+  lodash-es@4.17.21: {}
+
   lodash.merge@4.6.2: {}
 
   lodash@4.17.21: {}
@@ -2424,8 +2466,8 @@ snapshots:
 
   picomatch@2.3.1: {}
 
-  pinia-plugin-persistedstate@2.4.0(pinia@2.1.7):
-    dependencies:
+  pinia-plugin-persistedstate@2.4.0(pinia@2.1.7(vue@3.4.27)):
+    optionalDependencies:
       pinia: 2.1.7(vue@3.4.27)
 
   pinia@2.1.7(vue@3.4.27):
@@ -2541,6 +2583,8 @@ snapshots:
 
   text-table@0.2.0: {}
 
+  throttle-debounce@5.0.0: {}
+
   to-fast-properties@2.0.0: {}
 
   to-regex-range@5.0.1:
@@ -2571,9 +2615,9 @@ snapshots:
     dependencies:
       '@fastify/busboy': 2.1.1
 
-  unimport@1.3.0:
+  unimport@1.3.0(rollup@2.79.1):
     dependencies:
-      '@rollup/pluginutils': 5.1.0
+      '@rollup/pluginutils': 5.1.0(rollup@2.79.1)
       escape-string-regexp: 5.0.0
       fast-glob: 3.3.2
       local-pkg: 0.4.3
@@ -2587,10 +2631,10 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
-  unocss@0.45.30(vite@3.2.10):
+  unocss@0.45.30(rollup@2.79.1)(vite@3.2.10):
     dependencies:
-      '@unocss/astro': 0.45.30(vite@3.2.10)
-      '@unocss/cli': 0.45.30
+      '@unocss/astro': 0.45.30(rollup@2.79.1)(vite@3.2.10)
+      '@unocss/cli': 0.45.30(rollup@2.79.1)
       '@unocss/core': 0.45.30
       '@unocss/preset-attributify': 0.45.30
       '@unocss/preset-icons': 0.45.30
@@ -2605,25 +2649,26 @@ snapshots:
       '@unocss/transformer-compile-class': 0.45.30
       '@unocss/transformer-directives': 0.45.30
       '@unocss/transformer-variant-group': 0.45.30
-      '@unocss/vite': 0.45.30(vite@3.2.10)
+      '@unocss/vite': 0.45.30(rollup@2.79.1)(vite@3.2.10)
     transitivePeerDependencies:
       - rollup
       - supports-color
       - vite
 
-  unplugin-auto-import@0.11.5(@vueuse/core@9.13.0):
+  unplugin-auto-import@0.11.5(@vueuse/core@9.13.0(vue@3.4.27))(rollup@2.79.1):
     dependencies:
       '@antfu/utils': 0.7.8
-      '@rollup/pluginutils': 5.1.0
-      '@vueuse/core': 9.13.0(vue@3.4.27)
+      '@rollup/pluginutils': 5.1.0(rollup@2.79.1)
       local-pkg: 0.4.3
       magic-string: 0.26.7
-      unimport: 1.3.0
+      unimport: 1.3.0(rollup@2.79.1)
       unplugin: 1.10.1
+    optionalDependencies:
+      '@vueuse/core': 9.13.0(vue@3.4.27)
     transitivePeerDependencies:
       - rollup
 
-  unplugin-icons@0.14.15:
+  unplugin-icons@0.14.15(@vue/compiler-sfc@3.4.27):
     dependencies:
       '@antfu/install-pkg': 0.1.1
       '@antfu/utils': 0.7.8
@@ -2632,13 +2677,15 @@ snapshots:
       kolorist: 1.8.0
       local-pkg: 0.4.3
       unplugin: 1.10.1
+    optionalDependencies:
+      '@vue/compiler-sfc': 3.4.27
     transitivePeerDependencies:
       - supports-color
 
-  unplugin-vue-components@0.22.12(vue@3.4.27):
+  unplugin-vue-components@0.22.12(@babel/parser@7.24.6)(rollup@2.79.1)(vue@3.4.27):
     dependencies:
       '@antfu/utils': 0.7.8
-      '@rollup/pluginutils': 5.1.0
+      '@rollup/pluginutils': 5.1.0(rollup@2.79.1)
       chokidar: 3.6.0
       debug: 4.3.5
       fast-glob: 3.3.2
@@ -2648,6 +2695,8 @@ snapshots:
       resolve: 1.22.8
       unplugin: 1.10.1
       vue: 3.4.27
+    optionalDependencies:
+      '@babel/parser': 7.24.6
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -2697,6 +2746,14 @@ snapshots:
     dependencies:
       '@vue/devtools-api': 6.6.2
       vue: 3.4.27
+
+  vue3-marquee@4.2.1(vue@3.4.27):
+    dependencies:
+      vue: 3.4.27
+
+  vue3-seamless-scroll@2.0.1:
+    dependencies:
+      throttle-debounce: 5.0.0
 
   vue@3.4.27:
     dependencies:

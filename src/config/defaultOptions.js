@@ -1,31 +1,17 @@
+import { lineOptions } from './options/line'
+import { pieOptions } from './options/pie'
+import { scatterOptions } from './options/scatter'
+import { graphOption } from './options/graph'
 
 
-const lineOptions = [
-  {
-    optionName: 'Line Chart1',
-    optionID: 'line-chart1',
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [
-      {
-        data: [150, 230, 224, 218, 135, 147, 260],
-        type: 'line'
-      }
-    ]
-  }
-]
-const barOptions = {}
-const pieOptions = {}
-const radarOptions = {}
+const barOptions = []
+const radarOptions = []
 
 export default {
   line: lineOptions,
   bar: barOptions,
   pie: pieOptions,
-  radar: radarOptions
+  radar: radarOptions,
+  scatter: scatterOptions,
+  graph: graphOption
 }

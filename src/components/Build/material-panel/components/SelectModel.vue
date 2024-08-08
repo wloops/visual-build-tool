@@ -1,7 +1,7 @@
 <script setup>
 import { useCommonChart } from '@/hooks/useCommonChart'
 import { ref } from 'vue';
-const { chartOptions, getOption, init } = useCommonChart()
+const { chartOptions, getOption, getOptions, init } = useCommonChart()
 
 const emit = defineEmits(['storeCharts'])
 
@@ -14,7 +14,7 @@ const changeValue = (value) => {
 }
 const handleOk = () => {
   const dom = document.getElementById(defineChart.value.id)
-  const chart = init(dom, defineChart.value.type, radioValue.value)
+  const chart = init(dom, defineChart.value.type)
   charts.value.push(chart)
   emit('storeCharts', charts.value, defineChart.value)
   visible.value = false;
@@ -27,9 +27,10 @@ const chartTypes = ref([])
 
 const show = (plugin) => {
   defineChart.value = plugin
-  console.log('selectModel:show*', plugin)
   console.log('div^:', document.getElementById(plugin.id))
-  chartTypes.value = getOption(plugin.type)
+  const chartOptions = getOptions(plugin.type)
+  console.log('selectModel:show*', plugin, chartOptions)
+  chartTypes.value = chartOptions
   visible.value = true;
 }
 // 暴露方法
@@ -40,7 +41,7 @@ defineExpose({ show })
   <div>
     <a-modal width="70%" v-model:visible="visible" @ok="handleOk" @cancel="handleCancel">
       <template #title>
-        Title
+        {{ defineChart.name }}
       </template>
       <div :style="{
         boxSizing: 'border-box',
@@ -51,7 +52,7 @@ defineExpose({ show })
         <a-radio-group v-model="radioValue" @change="changeValue" v-if="chartTypes && chartTypes.length > 0">
           <a-row :gutter="20" :style="{ marginBottom: '20px' }">
             <a-col :span="8" :style="{ marginBottom: '20px' }" v-for="(item, index) in chartTypes">
-              <a-card class="card-demo" cursor-pointer hoverable :title="item.optionName" bordered
+              <a-card class="card-demo" cursor-pointer hoverable :title="item.chartID" bordered
                 :style="{ width: '100%' }" @click="radioValue = index">
                 <template #extra m-0>
                   <a-radio :value="index"></a-radio>

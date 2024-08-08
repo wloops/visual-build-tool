@@ -1,5 +1,5 @@
 <script setup>
-import { IconClose,IconToBottom,IconDelete } from '@arco-design/web-vue/es/icon';
+import { IconClose, IconToBottom, IconDelete } from '@arco-design/web-vue/es/icon';
 import { useSelectBoxStore } from '@/stores/selectBox'
 import { useMaterialStore } from '@/stores/material'
 
@@ -27,10 +27,17 @@ const downloadJSON = () => {
 </script>
 
 <template>
-  <div flex justify-center items-center h-full>
-    <div class="global-action-bar-left"></div>
+  <div flex justify-center items-center w-full h-full>
+    <div class="global-action-bar-left" pl-10px></div>
     <div class="global-action-bar-center" flex justify-end items-center>
-      <a-button type="dashed" size="small" v-show="isSelected" @click="clearSelectBox">
+      <a-button type="dashed" size="mini" v-show="isSelected" @click="clearSelectBox">
+        <template #icon>
+          <icon-delete />
+        </template>
+        <!-- Use the default slot to avoid extra spaces -->
+        <template #default>还原模块</template>
+      </a-button>
+      <a-button type="dashed" size="mini" v-show="isSelected" @click="clearSelectBox">
         <template #icon>
           <icon-close />
         </template>
@@ -38,12 +45,14 @@ const downloadJSON = () => {
         <template #default>取消选中</template>
       </a-button>
     </div>
-    <div class="global-action-bar-right" flex justify-end items-center mt-5 p-5>
-      <a-button type="primary" size="mini" @click="downloadJSON">
-      <template #icon>
-        <icon-to-bottom />
-      </template>
-    </a-button>
+    <div class="global-action-bar-right" flex justify-end items-center>
+      <a-button type="dashed" size="mini" @click="downloadJSON" mr-10px>
+        <template #icon>
+          <icon-to-bottom />
+        </template>
+        <!-- Use the default slot to avoid extra spaces -->
+        <template #default>下载</template>
+      </a-button>
     </div>
   </div>
 </template>
@@ -51,7 +60,7 @@ const downloadJSON = () => {
 
 <style scoped>
 .global-action-bar-left {
-  flex: 3;
+  flex: 2;
 }
 
 .global-action-bar-center {
@@ -59,6 +68,6 @@ const downloadJSON = () => {
 }
 
 .global-action-bar-right {
-  flex: 3;
+  flex: 2.5;
 }
 </style>

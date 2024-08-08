@@ -62,8 +62,8 @@ watch(
 
 <template>
   <div flex justify-center items-center>
-    <a-card :style="{ width: '90%', height: '85vh', margin: '15px', padding: '0px' }" :header-style="{ border: '0px' }"
-      hoverable :bordered="false">
+    <a-card :style="{ width: '100%', height: '89vh', marginLeft: '10px', padding: '0px' }"
+      :header-style="{ border: '0px' }" hoverable :bordered="false">
       <a-tabs position="left" type="line" size="large" :active-key="activeKey" @change="handleTabChange">
         <a-tab-pane v-for="item in materialList" :key="item.key" :title="item.name"
           :disabled="item.component === '暂无' || item.disabled">

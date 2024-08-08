@@ -5,8 +5,8 @@ const props = defineProps({
     default: () => { }
   }
 })
-import { useCommonChart } from '@/hooks/useCommonChart'
-import { nextTick } from 'vue';
+// import { useCommonChart } from '@/hooks/useCommonChart'
+// import { nextTick } from 'vue';
 // const { chartOptions, getOption, init } = useCommonChart()
 // onMounted(() => {
 //   const dom = document.getElementById(props.layoutData.id)

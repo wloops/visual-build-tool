@@ -67,8 +67,8 @@ function callback(data) {
 
 <template>
   <div flex justify-center items-center>
-    <a-card :style="{ width: '90%', height: '85vh', margin: '15px', paddingTop: '0' }" :header-style="{ border: '0px' }"
-      title="属性面板" hoverable :bordered="false">
+    <a-card :style="{ width: '100%', height: '89vh', marginRight: '10px', paddingTop: '0' }"
+      :header-style="{ border: '0px' }" title="属性面板" hoverable :bordered="false">
       <template #extra>
         <a-link>{{ layoutModel }}</a-link>
       </template>

@@ -88,22 +88,22 @@ const storeCharts = (chart, defineChart) => {
   console.log('layoutParams::', materialStore.layoutParams)
 }
 
-watch(
-  () => materialStore.layoutParams.list,
-  (newVal) => {
-    console.log('selectModel:watch*', newVal)
-    nextTick(() => {
-      if (charts.value.length > 0) {
-        charts.value.forEach((chart) => {
-          chart.resize()
-        })
-      }
-    })
-  },
-  {
-    deep: true
-  }
-)
+// watch(
+//   () => materialStore.layoutParams.list,
+//   (newVal) => {
+//     console.log('selectModel:watch*', newVal)
+//     nextTick(() => {
+//       if (charts.value.length > 0) {
+//         charts.value.forEach((chart) => {
+//           chart.resize()
+//         })
+//       }
+//     })
+//   },
+//   {
+//     deep: true
+//   }
+// )
 
 </script>
 
