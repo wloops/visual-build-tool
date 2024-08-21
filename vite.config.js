@@ -10,11 +10,12 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 // 组件自动引入插件
 import Components from 'unplugin-vue-components/vite'
-// ArcoVue、VueUse 组件和指令自动引入解析器
+// ArcoVue、Naive,VueUse 组件和指令自动引入解析器
 import {
   ArcoResolver,
+  NaiveUiResolver,
   VueUseComponentsResolver,
-  VueUseDirectiveResolver
+  VueUseDirectiveResolver,
 } from 'unplugin-vue-components/resolvers'
 // icon 插件
 import Icons from 'unplugin-icons/vite'
@@ -110,6 +111,7 @@ export default defineConfig(({ mode }) => {
           ArcoResolver({
             sideEffect: true
           }),
+          NaiveUiResolver(),
           VueUseComponentsResolver(),
           VueUseDirectiveResolver(),
           IconsResolver({

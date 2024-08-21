@@ -5,6 +5,12 @@ import numberSixFill from '~icons/ph/number-six-fill'
 import IconBar from '~icons/material-symbols/bar-chart-4-bars-rounded'
 import IconLine from '~icons/streamline/graph-solid'
 import IconPie from '~icons/ic/baseline-pie-chart'
+import IconDesc from '~icons/mdi/order-alphabetical-descending'
+import IconStatus from '~icons/material-symbols/signal-wifi-statusbar-not-connected'
+import IconTable from '~icons/mdi/table-large'
+import IconEmail from '~icons/ic/round-attach-email'
+import IconTop from '~icons/mdi/format-align-top'
+import IconDetails from '~icons/tabler/list-details'
 import { useSelectBoxStore } from '@/stores/selectBox'
 import { useMaterialStore } from '@/stores/material'
 import { nextTick } from 'vue'
@@ -14,18 +20,41 @@ const selectBoxStore = useSelectBoxStore()
 const isSelected = ref(false)
 
 watchEffect(() => {
-  isSelected.value = selectBoxStore.selectedBox && selectBoxStore.selectedBox.actived === true
+  isSelected.value =
+    selectBoxStore.selectedBox && selectBoxStore.selectedBox.actived === true
 })
 
-const pluginList = ref([
+const pluginList = shallowRef([
   {
     name: '基础',
     id: 'base',
     children: [
       {
-        name: '数值动画',
-        type: 'number-animation',
+        name: '统计数据',
+        type: 'countNumber',
         icon: numberSixFill
+      },
+      {
+        name: '详情面板',
+        type: 'infos',
+        icon: IconDesc
+      },
+      {
+        name: '状态监控',
+        type: 'iconLists',
+        icon: IconStatus
+      },
+      {
+        name: '告警表格',
+        type: 'table',
+        icon: IconTable,
+        imgUrl:
+          'https://wloop-sy.oss-cn-hongkong.aliyuncs.com/picgo/202408201551286.png'
+      },
+      {
+        name: 'top5',
+        type: 'progressTop',
+        icon: IconTop
       }
     ]
   },
@@ -36,7 +65,7 @@ const pluginList = ref([
       {
         name: '柱状图',
         type: 'bar',
-        icon: IconBar,
+        icon: IconBar
       },
       {
         name: '折线图',
@@ -47,6 +76,22 @@ const pluginList = ref([
         name: '饼图',
         type: 'pie',
         icon: IconPie
+      }
+    ]
+  },
+  {
+    name: '其他',
+    id: 'other',
+    children: [
+      {
+        name: '节点链接',
+        type: 'graph',
+        icon: IconEmail
+      },
+      {
+        name: '设备详情',
+        type: 'deviceDetails',
+        icon: IconDetails
       }
     ]
   }
@@ -84,7 +129,6 @@ const storeCharts = (chart, defineChart) => {
     }
   }
 
-
   console.log('layoutParams::', materialStore.layoutParams)
 }
 
@@ -104,7 +148,6 @@ const storeCharts = (chart, defineChart) => {
 //     deep: true
 //   }
 // )
-
 </script>
 
 <template>
@@ -113,23 +156,40 @@ const storeCharts = (chart, defineChart) => {
       <a-alert type="warning">请先选中一个块</a-alert>
     </a-col>
     <a-col :span="23" v-else>
-      <a-alert type="success">{{ `已选中:` }}<br />{{ selectBoxStore.selectedBox.id }}</a-alert>
+      <a-alert type="success">{{ `选择插入下列组件` }}</a-alert>
+      <!-- <a-alert type="success"
+        >{{ `已选中:` }}<br />{{ selectBoxStore.selectedBox.name }}</a-alert
+      > -->
     </a-col>
 
-    <div :class="isSelected ? '' : 'not-clickable'" v-for="plugin in pluginList" :key="plugin.name">
-      <h3>{{ plugin.name }}</h3>
-      <div w-full flex flex-wrap justify-start items-center>
-        <div v-for="child in plugin.children" :key="child.name" class="plugin-item" @click="openPlugin(child, plugin)">
-          <component v-if="child.icon" :is="child.icon" class="text-24px"></component>
-          <div text-14px mt-2>{{ child.name }}</div>
+    <a-scrollbar style="height: 78vh; overflow: auto">
+      <div
+        :class="isSelected ? '' : 'not-clickable'"
+        v-for="plugin in pluginList"
+        :key="plugin.name"
+      >
+        <h3>{{ plugin.name }}</h3>
+        <div w-full flex flex-wrap justify-start items-center>
+          <div
+            v-for="child in plugin.children"
+            :key="child.name"
+            class="plugin-item"
+            @click="openPlugin(child, plugin)"
+          >
+            <component
+              v-if="child.icon"
+              :is="child.icon"
+              class="text-24px"
+            ></component>
+            <div text-12px mt-2>{{ child.name }}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </a-scrollbar>
 
     <select-model ref="selectModel" @storeCharts="storeCharts"></select-model>
   </div>
 </template>
-
 
 <style scoped>
 .plugin-item {
@@ -143,6 +203,5 @@ const storeCharts = (chart, defineChart) => {
   /* 置灰 */
 
   opacity: 0.5;
-
 }
 </style>

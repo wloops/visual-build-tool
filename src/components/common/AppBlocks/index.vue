@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 // import { useWebSocket } from '@/hooks'
 // import { useMonitorStore } from '@/store'
 // import { useProceResponseData } from '@/hooks/useProceResponseData'
@@ -20,20 +20,18 @@ const props = defineProps({
   }
 })
 
-
 const isApply = ref(false)
 const componentKey = ref(0)
 const dynamicComponents = reactive({})
 const blockTabs = reactive({})
 
 onMounted(async () => {
-  const modules = import.meta.glob('@/components/common/AppBlocks/**/*.vue');
+  const modules = import.meta.glob('@/components/common/AppBlocks/**/*.vue')
   for (const path in modules) {
-    const module = await modules[path]();
-    const componentName = path.replace(/^\.\/components\/(.*)\.vue$/, '$1');
+    const module = await modules[path]()
+    const componentName = path.replace(/^\.\/components\/(.*)\.vue$/, '$1')
     // console.log(`componentName`, componentName);
     dynamicComponents[componentName] = markRaw(module.default)
-
   }
   // console.log(`dynamicComponents`, dynamicComponents);
 
@@ -48,11 +46,10 @@ onMounted(async () => {
   console.log('blockTabs::', blockTabs)
 })
 
-
 const requestList = ref([])
 const wsMessageList = ref([])
 
-const waitRequestList = (item) => {
+const waitRequestList = item => {
   requestList.value.push(item)
   if (item.request.mode === 'ws') {
     wsMessageList.value.push(item)
@@ -93,7 +90,6 @@ onMounted(() => {
   console.log('wsMessageList::', wsMessageList.value)
   // wsMessageList.value.length > 0 && setWsInit()
 
-
   isApply.value = true
 })
 
@@ -104,7 +100,7 @@ async function handleOpen(e) {
     list.forEach(item => {
       const data = {
         groupId: item.request.params.groupId,
-        itemId: item.request.params.itemId,
+        itemId: item.request.params.itemId
       }
       wsSend(data)
     })
@@ -115,7 +111,6 @@ function setWsInit() {
   wsInit(handleMessage, handleOpen)
 }
 
-
 const componentData = ref({})
 function handleMessage(e) {
   const message = JSON.parse(e.data)
@@ -123,10 +118,17 @@ function handleMessage(e) {
   // 新增或更新数据
   // let blockID = ''
   wsMessageList.value.forEach(item => {
-    if (item.request.mode === 'ws' && item.request.params.groupId === message.groupId && item.request.params.itemId === message.itemId) {
+    if (
+      item.request.mode === 'ws' &&
+      item.request.params.groupId === message.groupId &&
+      item.request.params.itemId === message.itemId
+    ) {
       console.log('WebSocket收到 更新 消息', message)
       // item.data = useProceResponseData(item.request.params.wsId, message.data)
-      componentData.value[item.id] = useProceResponseData(item.request?.params.wsId, message.data)
+      componentData.value[item.id] = useProceResponseData(
+        item.request?.params.wsId,
+        message.data
+      )
       // store.setComponetData(componentData.value)
       // blockID = item.id
     }
@@ -140,7 +142,6 @@ function handleMessage(e) {
   // })
   isApply.value = true
 }
-
 
 function getWsMsgForID(list) {
   console.log('getWsMsgForID::', list)
@@ -161,18 +162,19 @@ function getWsMsgForID(list) {
 
 const setSpacePercent = (ratio, type) => {
   const notList = ['infos', 'iconLists']
-  if (type && !ratio || notList.includes(type)) return
+  if ((type && !ratio) || notList.includes(type)) return
   let ratioPlus = 0
-  const direction = props.data.direction === 'column' ? 'width|height' : 'height|width'
+  const direction =
+    props.data.direction === 'column' ? 'width|height' : 'height|width'
   props.data.children.forEach(innerBox => {
     ratioPlus += innerBox.flexRatio
   })
-  const percent = (ratio / ratioPlus * 100).toFixed(2)
+  const percent = ((ratio / ratioPlus) * 100).toFixed(2)
   console.log('percent::', `${direction.split('|')[0]}: ${percent}%`)
   return `${direction.split('|')[0]}: ${percent}%`
 }
 
-const getTypeName = (type) => {
+const getTypeName = type => {
   if (!type) return
   if (type.indexOf('|') > -1) {
     return type.split('|')[0]
@@ -188,6 +190,14 @@ function selectBox(box) {
     if (value === box.id) {
       // box.actived = true
       item.classList.add('actived')
+      // 计算获取绑定块的宽高
+      // const rect = item.getBoundingClientRect()
+      const rect = item
+      const width = rect.clientWidth
+      const height = rect.clientHeight
+      console.log('box 宽高:', item, width, height)
+      box.width = width
+      box.height = height
     } else {
       // box.actived = false
       item.classList.remove('actived')
@@ -216,19 +226,48 @@ function selectBox(box) {
 </script>
 
 <template>
-  <div w-full h-full flex :id="'app-block-' + props.data.id" :class="{ 'flex-col': props.data.direction !== 'column' }">
-    <template v-for="(item, index) in props.data.children" w-full h-full flex justify-center items-center
-      :id="'group-' + item.id" :key="index">
-      <div v-if="!item.type" class="childBox" :value="item.id" w-full h-full
-        :style="setSpacePercent(item.flexRatio, item.type)" @click="selectBox(item)"></div>
-      <component v-else class="childBox" :is="blockTabs[getTypeName(item.type)]" :config="item"
-        :data="componentData[item.id]" :value="item.id" :style="setSpacePercent(item.flexRatio, item.type)" w-full
-        h-full @click="selectBox(item)">
+  <div
+    w-full
+    h-full
+    flex
+    :id="'app-block-' + props.data.id"
+    :class="{ 'flex-col': props.data.direction !== 'column' }"
+  >
+    <template
+      v-for="(item, index) in props.data.children"
+      w-full
+      h-full
+      flex
+      justify-center
+      items-center
+      :id="'group-' + item.id"
+      :key="index"
+    >
+      <div
+        v-if="!item.type"
+        class="childBox"
+        :value="item.id"
+        w-full
+        h-full
+        :style="setSpacePercent(item.flexRatio, item.type)"
+        @click="selectBox(item)"
+      ></div>
+      <component
+        v-else
+        class="childBox"
+        :is="blockTabs[getTypeName(item.type)]"
+        :config="item"
+        :data="componentData[item.id]"
+        :value="item.id"
+        :style="setSpacePercent(item.flexRatio, item.type)"
+        w-full
+        h-full
+        @click="selectBox(item)"
+      >
       </component>
     </template>
   </div>
 </template>
-
 
 <style scoped>
 .flex-col {

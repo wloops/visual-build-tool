@@ -2,51 +2,49 @@
 import { useMaterialStore } from '@/stores/material'
 import { useSelectBoxStore } from '@/stores/selectBox'
 import AttrLayoutPanel from './components/AttrLayoutPanel.vue'
-import BackgroundPanel from './components/BackgroundPanel.vue';
-
+import BackgroundPanel from './components/BackgroundPanel.vue'
 
 const materialStore = useMaterialStore()
 const selectBoxStore = useSelectBoxStore()
 const emit = defineEmits(['callback'])
-
 
 const layoutModel = ref(materialStore.materialLayout)
 const layoutAttrs = [
   {
     name: '布局参数',
     key: 'layout',
-    component: AttrLayoutPanel,
+    component: AttrLayoutPanel
   },
   {
     name: '背景调整',
     key: 'background',
-    component: BackgroundPanel,
-  },
+    component: BackgroundPanel
+  }
 ]
 const blackAttr = [
   {
     name: '图表参数',
     key: 'layout1',
-    component: BackgroundPanel,
+    component: BackgroundPanel
   },
   {
     name: '修改源码',
     key: 'background1',
-    component: BackgroundPanel,
-  },
+    component: BackgroundPanel
+  }
 ]
 
-const attrs = ref(layoutAttrs)
+const attrs = shallowRef(layoutAttrs)
 let activeKey = true
 watch(
   () => materialStore.materialLayout,
-  (newVal) => {
+  newVal => {
     layoutModel.value = newVal
   }
 )
 watch(
   () => selectBoxStore.selectedBox,
-  (newVal) => {
+  newVal => {
     console.log('selectedBox', newVal)
     activeKey = false
     if (newVal && newVal.actived === true) {
@@ -67,26 +65,39 @@ function callback(data) {
 
 <template>
   <div flex justify-center items-center>
-    <a-card :style="{ width: '100%', height: '89vh', marginRight: '10px', paddingTop: '0' }"
-      :header-style="{ border: '0px' }" title="属性面板" hoverable :bordered="false">
+    <a-card
+      :style="{
+        width: '100%',
+        height: '89vh',
+        marginRight: '10px',
+        paddingTop: '0'
+      }"
+      :header-style="{ border: '0px' }"
+      title="属性面板"
+      hoverable
+      :bordered="false"
+    >
       <template #extra>
         <a-link>{{ layoutModel }}</a-link>
       </template>
 
       <div>
-
         <a-tabs position="top" type="line" size="large" lazy-load>
           <a-tab-pane v-for="item in attrs" :key="item.key" :title="item.name">
-            <component :key="item.key" :is="item.component" :model="layoutModel" @callback="callback" h-70vh
-              overflow-y-auto />
+            <component
+              :key="item.key"
+              :is="item.component"
+              :model="layoutModel"
+              @callback="callback"
+              h-70vh
+              overflow-y-auto
+            />
           </a-tab-pane>
-
         </a-tabs>
       </div>
     </a-card>
   </div>
 </template>
-
 
 <style scoped>
 :deep(.arco-card-size-medium .arco-card-body) {

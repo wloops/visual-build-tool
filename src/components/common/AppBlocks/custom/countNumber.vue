@@ -43,29 +43,57 @@ watch(
 <template>
   <div>
     <div class="container w-full h-full">
-
-      <div class="glass card-notbg" data-text="" data-text-2="今日交易笔数" h-full pt-10 flex flex-col justify-center
-        items-center>
+      <div
+        class="glass card-notbg"
+        data-text=""
+        data-text-2="今日交易笔数"
+        h-full
+        pt-0
+        flex
+        flex-col
+        justify-center
+        items-center
+      >
         <div class="countBox w-full flex justify-center items-center flex-1">
           <n-statistic label="" tabular-nums>
-            <n-number-animation ref="numAnimRefCount" :from="oldDeviceCountNum.total ? oldDeviceCountNum.total : 0"
-              :to="deviceCountNum.total" :active="true" :precision="0" locale="en-US" show-separator />
+            <n-number-animation
+              ref="numAnimRefCount"
+              :from="oldDeviceCountNum.total ? oldDeviceCountNum.total : 0"
+              :to="deviceCountNum.total"
+              :active="true"
+              :precision="0"
+              locale="en-US"
+              show-separator
+            />
             <template #suffix>次</template>
           </n-statistic>
         </div>
-        <div class="areBox  w-full flex justify-around items-center flex-1">
+        <div class="areBox w-full flex justify-around items-center flex-1">
           <div class="onlineBox glass onoff card-notbg" data-text-2="交易成功">
             <n-statistic label="" tabular-nums>
-              <n-number-animation ref="numAnimRefOnline" :from="oldDeviceCountNum.total - oldDeviceCountNum.fail ?? 0"
-                :to="deviceCountNum.total - deviceCountNum.fail ?? 0" :active="true" :precision="0" locale="en-US"
-                show-separator />
+              <n-number-animation
+                ref="numAnimRefOnline"
+                :from="oldDeviceCountNum.total - oldDeviceCountNum.fail ?? 0"
+                :to="deviceCountNum.total - deviceCountNum.fail ?? 0"
+                :active="true"
+                :precision="0"
+                locale="en-US"
+                show-separator
+              />
               <template #suffix>次</template>
             </n-statistic>
           </div>
           <div class="offlineBox glass onoff card-notbg" data-text-2="交易失败">
             <n-statistic label="" tabular-nums>
-              <n-number-animation ref="numAnimRefOffline" :from="oldDeviceCountNum.fail ? oldDeviceCountNum.fail : 0"
-                :to="deviceCountNum.fail" :active="true" :precision="0" locale="en-US" show-separator />
+              <n-number-animation
+                ref="numAnimRefOffline"
+                :from="oldDeviceCountNum.fail ? oldDeviceCountNum.fail : 0"
+                :to="deviceCountNum.fail"
+                :active="true"
+                :precision="0"
+                locale="en-US"
+                show-separator
+              />
               <template #suffix>次</template>
             </n-statistic>
           </div>
@@ -74,7 +102,6 @@ watch(
     </div>
   </div>
 </template>
-
 
 <style scoped>
 /* :deep(.n-statistic) {
@@ -121,7 +148,6 @@ watch(
   /* box-shadow: 0 25px 25px rgba(0, 0, 0, 0.15); */
   /* border: 2px dashed rgba(64, 121, 226, 0.35); */
 
-
   display: flex;
   justify-content: center;
   align-items: end;
@@ -131,7 +157,6 @@ watch(
   margin: 10px;
   /* backdrop-filter: blur(10px); */
   transform: rotate(calc(var(--r) * 1deg));
-
 }
 
 .container .glass::after {

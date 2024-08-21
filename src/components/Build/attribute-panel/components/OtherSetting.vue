@@ -3,10 +3,10 @@ const emit = defineEmits(['callback', 'callback2'])
 const visible = ref(false)
 
 const posts = ref({})
-const open = (data) => {
+const open = data => {
   posts.value = {}
   form.ratioList = []
-  data.innerBoxs.forEach((item) => {
+  data.innerBoxs.forEach(item => {
     form.ratioList.push(item.flexRatio)
   })
   // for (let index = 0; index < data.colNum; index++) {
@@ -27,7 +27,7 @@ const form = reactive({
   ratioList: []
 })
 
-const setLayoutLabel = (model) => {
+const setLayoutLabel = model => {
   switch (model) {
     case 'column':
       return '高度'
@@ -49,13 +49,17 @@ const handSetFlexRatio = (value, rowIndex, colIndex, type) => {
 const setinnerBoxChildren = (value, rowIndex, colIndex, childIndex) => {
   emit('callback2', value, rowIndex, colIndex, childIndex)
 }
-const getPercent = (index) => {
+const getPercent = index => {
   // 根据flex比例算百分比,保留两位小数
   const value = form.ratioList[index]
-  return ((value / form.ratioList.reduce((acc, cur) => acc + cur, 0)) * 100).toFixed(2) + '%'
+  return (
+    ((value / form.ratioList.reduce((acc, cur) => acc + cur, 0)) * 100).toFixed(
+      2
+    ) + '%'
+  )
 }
 
-const selectBorder = (index) => {
+const selectBorder = index => {
   console.log('selectBorder:', index)
 }
 
@@ -81,50 +85,96 @@ const borderList = [
 // 暴露方法
 defineExpose({
   open
-});
-
+})
 </script>
 
 <template>
   <div>
-    <a-drawer width="100%" popup-container="#parentNode" :visible="visible" ok-text="返回" hide-cancel
-      @cancel="handleCancel" @ok="handleCancel">
+    <a-drawer
+      width="100%"
+      popup-container="#parentNode"
+      :visible="visible"
+      ok-text="返回"
+      hide-cancel
+      @cancel="handleCancel"
+      @ok="handleCancel"
+    >
       <template #title> {{ `第${posts.index + 1}列区块设置` }} </template>
       <a-form :model="form" :style="{ width: '100%' }" layout="vertical">
         <div v-for="(item, index) in posts.innerBoxs">
           <div flex mt-5 mb-5>
-            <a-input size="small" :placeholder="'区块' + (index + 1)" v-model="item.name">
+            <a-input
+              size="small"
+              :placeholder="'区块' + (index + 1)"
+              v-model="item.name"
+            >
             </a-input>
           </div>
-          <a-form-item :label="setLayoutLabel(posts.model)" validate-trigger="input">
-            <a-input-number size="small" placeholder="Please Enter" :model-value="item.flexRatio" mode="button"
-              class="input-demo" :min="1" :disabled="posts.colNum === 1"
-              @change="handSetFlexRatio($event, posts.index, index)" />
+          <a-form-item
+            :label="setLayoutLabel(posts.model)"
+            validate-trigger="input"
+          >
+            <a-input-number
+              size="small"
+              placeholder="Please Enter"
+              :model-value="item.flexRatio"
+              mode="button"
+              class="input-demo"
+              :min="1"
+              :disabled="posts.colNum === 1"
+              @change="handSetFlexRatio($event, posts.index, index)"
+            />
             <template #extra>
               <div>{{ getPercent(index) }}</div>
             </template>
           </a-form-item>
           <a-form-item label="子区块数">
-            <a-input-number size="small" placeholder="Please Enter" :model-value="item.children.length" mode="button"
-              class="input-demo" :min="1" :max="5" @change="setinnerBoxChildren($event, posts.index, index, -1)" />
+            <a-input-number
+              size="small"
+              placeholder="Please Enter"
+              :model-value="item.children.length"
+              mode="button"
+              class="input-demo"
+              :min="1"
+              :max="5"
+              @change="setinnerBoxChildren($event, posts.index, index, -1)"
+            />
           </a-form-item>
           <div>
             <a-form-item label="子区块设置">
               <div bg-blueGray-100 p-2>
                 <a-space mb-2>
                   <div w-20>纵向排布</div>
-                  <a-switch type="line" :model-value="item.direction !== 'column'"
-                    @change="handSetFlexRatio($event, posts.index, index, 'direction')" />
+                  <a-switch
+                    type="line"
+                    :model-value="item.direction !== 'column'"
+                    @change="
+                      handSetFlexRatio($event, posts.index, index, 'direction')
+                    "
+                  />
                 </a-space>
                 <a-space v-for="(child, i) in item.children" :key="i">
-                  <div w-20>{{ `子区块${i + 1}${item.direction === 'column' ? '宽度' : '高度'}` }} </div>
-                  <a-input-number size="small" placeholder="Please Enter" :model-value="child.flexRatio"
-                    class="input-demo" :min="1" :max="5" @change="setinnerBoxChildren($event, posts.index, index, i)" />
+                  <div w-20>
+                    {{
+                      `子区块${i + 1}${
+                        item.direction === 'column' ? '宽度' : '高度'
+                      }`
+                    }}
+                  </div>
+                  <a-input-number
+                    size="small"
+                    placeholder="Please Enter"
+                    :model-value="child.flexRatio"
+                    class="input-demo"
+                    :min="1"
+                    :max="5"
+                    @change="setinnerBoxChildren($event, posts.index, index, i)"
+                  />
                 </a-space>
               </div>
             </a-form-item>
           </div>
-          <a-form-item label="边框" validate-trigger="input">
+          <!-- <a-form-item label="边框" validate-trigger="input">
             <a-popconfirm okText="" cancelText="No" position="tr">
               <a-button>选择边框</a-button>
               <template #content>
@@ -141,14 +191,12 @@ defineExpose({
                 </div>
               </template>
             </a-popconfirm>
-          </a-form-item>
+          </a-form-item> -->
         </div>
-
       </a-form>
     </a-drawer>
   </div>
 </template>
-
 
 <style scoped>
 .arco-form-item {

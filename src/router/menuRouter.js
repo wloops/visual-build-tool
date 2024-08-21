@@ -8,7 +8,7 @@ export const menuRouter = [
     path: 'buildTools',
     name: 'BuildTools',
     meta: {
-      title: '搭建工具',
+      title: '可视化搭建工具',
       icon: markRaw(IconMaterialSymbolsCodeBlocksOutline)
     },
     redirect: { name: 'test' },
@@ -28,6 +28,14 @@ export const menuRouter = [
           title: '监控大屏'
         },
         component: () => import('@/views/Monitor/index.vue')
+      },
+      {
+        path: 'report',
+        name: 'report',
+        meta: {
+          title: '单据报表'
+        },
+        component: () => import('@/views/ReportForm/index.vue')
       }
     ]
   }

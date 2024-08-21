@@ -1,9 +1,8 @@
 <script setup>
-
 const props = defineProps({
   config: {
     type: Object,
-    default: () => { }
+    default: () => {}
   }
 })
 
@@ -44,7 +43,6 @@ const descData = [
     value: 80,
     type: 'progress',
     span: 1
-
   },
   {
     key: 'ram',
@@ -53,9 +51,9 @@ const descData = [
     type: 'progress'
   }
 ]
-
+console.log('info props', props.config)
 const descColumn = ref(1)
-const setSpan = (item) => {
+const setSpan = item => {
   const maxSpanList = ['cpu', 'ram']
   if (maxSpanList.includes(item.key)) {
     return descColumn.value
@@ -67,18 +65,30 @@ const setSpan = (item) => {
 <template>
   <div p-10 flex flex-col justify-between>
     <div>
-      <n-scrollbar trigger="none" :style="{ maxHeight: config.height }">
-
-        <n-descriptions label-placement="left" bordered title="" :column="descColumn" size="small">
-          <n-descriptions-item :label-style="{ color: '#818991', fontSize: '13px' }" v-for="(item, index) in descData"
-            :key="index" :span="setSpan(item)">
+      <n-scrollbar
+        trigger="none"
+        :style="{ maxHeight: config.height - 50 + 'px' }"
+      >
+        <n-descriptions
+          label-placement="left"
+          bordered
+          title=""
+          :column="descColumn"
+          size="small"
+        >
+          <n-descriptions-item
+            :label-style="{ color: '#818991', fontSize: '13px' }"
+            v-for="(item, index) in descData"
+            :key="index"
+            :span="setSpan(item)"
+          >
             <template #label>
               {{ item.label }}
             </template>
             <div v-if="item.type === 'progress'">
               <n-progress :percentage="item.value" type="line" :height="12" />
             </div>
-            <span v-else style="font-size: 13px;">{{ item.value }}</span>
+            <span v-else style="font-size: 13px">{{ item.value }}</span>
           </n-descriptions-item>
         </n-descriptions>
       </n-scrollbar>
@@ -96,7 +106,6 @@ const setSpan = (item) => {
     </div> -->
   </div>
 </template>
-
 
 <style scoped>
 :deep(.n-descriptions-table-wrapper) {

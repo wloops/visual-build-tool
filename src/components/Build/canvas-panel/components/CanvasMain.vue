@@ -32,7 +32,6 @@ watch(
 // 排版方式 分列/分行/独立网格
 let layoutModel = ref('column') // 'row'|'column'|'grid'
 
-
 watch(
   () => materialStore.materialLayout,
   newVal => {
@@ -42,9 +41,10 @@ watch(
 
 const setSpacePercent = (ratio, index) => {
   let ratioPlus = 0
-  const direction = layoutModel.value === 'column' ? 'width|height' : 'height|width'
+  const direction =
+    layoutModel.value === 'column' ? 'width|height' : 'height|width'
   if (index === -1) {
-    layoutData.value.forEach((item) => {
+    layoutData.value.forEach(item => {
       ratioPlus += item.flexRatio
     })
   } else {
@@ -53,28 +53,67 @@ const setSpacePercent = (ratio, index) => {
     })
   }
 
-  const percent = (ratio / ratioPlus * 100).toFixed(2)
+  const percent = ((ratio / ratioPlus) * 100).toFixed(2)
   // console.log('percent::', percent)
-  return index === -1 ? `${direction.split('|')[0]}: ${percent}%` : `${direction.split('|')[1]}: ${percent}%`
+  return index === -1
+    ? `${direction.split('|')[0]}: ${percent}%`
+    : `${direction.split('|')[1]}: ${percent}%`
 }
 </script>
 
 <template>
   <div w-full h-full flex justify-center items-center>
     <div id="canvas-main" text-coolGray-300 w-full h-full pt-0 p-3>
-      <div :class="{
-        'column-wrap': layoutModel === 'column',
-        'row-wrap': layoutModel === 'row',
-        'grid-wrap': layoutModel === 'grid'
-      }" w-full h-full flex>
-        <div v-for="(item, index) in layoutData" :key="index" :class="{ 'flex-col': layoutModel === 'column' }" w-full
-          h-full flex justify-center items-center m-2 :style="setSpacePercent(item.flexRatio, -1)">
-          <div v-for="(innerBox, innerIndex) in item.innerBoxs" :key="innerIndex"
-            :style="setSpacePercent(innerBox.flexRatio, index)" class="innerBox" :value="innerBox.id" w-full h-full m-2>
-            <div :class="innerBox.notTitle ? 'innerBox-content-notTitle' : 'innerBox-content'" w-full h-full
-              :data-text="innerBox.name">
-              <AppBlocks :id="innerBox.id" :style="`height: ${innerBox.notTitle ? '100%' : 'calc(100% - 40px)'};`"
-                :data="innerBox">
+      <div
+        :class="{
+          'column-wrap': layoutModel === 'column',
+          'row-wrap': layoutModel === 'row',
+          'grid-wrap': layoutModel === 'grid'
+        }"
+        w-full
+        h-full
+        flex
+      >
+        <div
+          v-for="(item, index) in layoutData"
+          :key="index"
+          :class="{ 'flex-col': layoutModel === 'column' }"
+          w-full
+          h-full
+          flex
+          justify-center
+          items-center
+          m-2
+          :style="setSpacePercent(item.flexRatio, -1)"
+        >
+          <div
+            v-for="(innerBox, innerIndex) in item.innerBoxs"
+            :key="innerIndex"
+            :style="setSpacePercent(innerBox.flexRatio, index)"
+            class="innerBox"
+            :value="innerBox.id"
+            w-full
+            h-full
+            m-2
+          >
+            <div
+              :class="
+                !innerBox.name
+                  ? 'innerBox-content-notTitle'
+                  : 'innerBox-content'
+              "
+              w-full
+              h-full
+              :data-text="innerBox.name"
+            >
+              <AppBlocks
+                overflow-hidden
+                :id="innerBox.id"
+                :style="`height: ${
+                  !innerBox.name ? '100%' : 'calc(100% - 40px)'
+                };`"
+                :data="innerBox"
+              >
               </AppBlocks>
             </div>
           </div>
@@ -127,7 +166,6 @@ const setSpacePercent = (ratio, index) => {
   border: 1px solid rgba(2, 24, 68, 0.1);
   box-shadow: 0 25px 25px rgba(0, 0, 0, 0.15);
   border: 2px dashed rgba(64, 121, 226, 0.35);
-
 
   display: flex;
   justify-content: center;

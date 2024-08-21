@@ -1,5 +1,9 @@
 <script setup>
-import { IconClose, IconToBottom, IconDelete } from '@arco-design/web-vue/es/icon';
+import {
+  IconClose,
+  IconToBottom,
+  IconDelete
+} from '@arco-design/web-vue/es/icon'
 import { useSelectBoxStore } from '@/stores/selectBox'
 import { useMaterialStore } from '@/stores/material'
 
@@ -8,7 +12,8 @@ const selectBoxStore = useSelectBoxStore()
 const isSelected = ref(false)
 
 watchEffect(() => {
-  isSelected.value = selectBoxStore.selectedBox && selectBoxStore.selectedBox.actived === true
+  isSelected.value =
+    selectBoxStore.selectedBox && selectBoxStore.selectedBox.actived === true
 })
 
 const clearSelectBox = () => {
@@ -18,6 +23,23 @@ const clearSelectBox = () => {
   activedBoxs.forEach(box => {
     box.classList.remove('actived')
   })
+}
+const revertSelectedBox = () => {
+  const defineChart = selectBoxStore.selectedBox
+  const type = ''
+  // 遍历查找 layoutParams.list->innerBoxs->children 的每一项的id是否和defineChart.id相同
+  for (let i = 0; i < materialStore.layoutParams.list.length; i++) {
+    const innerBoxs = materialStore.layoutParams.list[i].innerBoxs
+    for (let j = 0; j < innerBoxs.length; j++) {
+      const children = innerBoxs[j].children
+      for (let k = 0; k < children.length; k++) {
+        if (children[k].id === defineChart.id) {
+          children[k].type = type
+          break
+        }
+      }
+    }
+  }
 }
 
 const downloadJSON = () => {
@@ -30,14 +52,24 @@ const downloadJSON = () => {
   <div flex justify-center items-center w-full h-full>
     <div class="global-action-bar-left" pl-10px></div>
     <div class="global-action-bar-center" flex justify-end items-center>
-      <a-button type="dashed" size="mini" v-show="isSelected" @click="clearSelectBox">
+      <a-button
+        type="dashed"
+        size="mini"
+        v-show="isSelected"
+        @click="revertSelectedBox"
+      >
         <template #icon>
           <icon-delete />
         </template>
         <!-- Use the default slot to avoid extra spaces -->
         <template #default>还原模块</template>
       </a-button>
-      <a-button type="dashed" size="mini" v-show="isSelected" @click="clearSelectBox">
+      <a-button
+        type="dashed"
+        size="mini"
+        v-show="isSelected"
+        @click="clearSelectBox"
+      >
         <template #icon>
           <icon-close />
         </template>
@@ -56,7 +88,6 @@ const downloadJSON = () => {
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .global-action-bar-left {

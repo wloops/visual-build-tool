@@ -2,7 +2,7 @@
 import autofit from 'autofit.js'
 const canvasLayoutData = ref({})
 const updateKey = ref(false)
-const callback = (data) => {
+const callback = data => {
   console.log('callback', data)
   canvasLayoutData.value = data
   updateKey.value = false
@@ -13,7 +13,7 @@ onMounted(() => {
     dh: 1080,
     dw: 1920,
     el: '#canvas-panel-main',
-    resize: true,
+    resize: true
   })
 })
 </script>
@@ -25,14 +25,31 @@ onMounted(() => {
       <global-action-bar></global-action-bar>
     </div>
     <!-- 构建区域 -->
-    <div class="build-container" flex w-full h-full justify-between items-center>
+    <div
+      class="build-container"
+      flex
+      w-full
+      h-full
+      justify-between
+      items-center
+    >
       <!-- 物料区 构建区域左侧 -->
       <div id="material-panel" class="build-left material-panel panel mb-5">
         <material-panel />
       </div>
       <!-- 画布区 构建区域中部 -->
-      <div id="canvas-panel" class="build-center canvas-panel panel mb-5" flex justify-center items-center>
-        <canvas-panel v-if="updateKey" id="canvas-panel-main" :canvasLayoutData="canvasLayoutData" />
+      <div
+        id="canvas-panel"
+        class="build-center canvas-panel panel mb-5"
+        flex
+        justify-center
+        items-center
+      >
+        <canvas-panel
+          v-if="updateKey"
+          id="canvas-panel-main"
+          :canvasLayoutData="canvasLayoutData"
+        />
       </div>
       <!-- 属性区 构建区域右侧 -->
       <div id="attribute-panel" class="build-right attribute-panel panel mb-5">
@@ -42,10 +59,10 @@ onMounted(() => {
   </div>
 </template>
 
-
 <style scoped>
 .build-main {
   height: calc(100vh - 60px);
+  overflow: hidden;
   background-color: var(--color-neutral-1);
   /* background: url(./images/bg.jpg) no-repeat top center; */
   /* line-height: 1.15; */
