@@ -7,6 +7,8 @@ import {
 import { useSelectBoxStore } from '@/stores/selectBox'
 import { useMaterialStore } from '@/stores/material'
 
+import DownloadModal from './components/DownloadModal.vue'
+
 const materialStore = useMaterialStore()
 const selectBoxStore = useSelectBoxStore()
 const isSelected = ref(false)
@@ -42,9 +44,16 @@ const revertSelectedBox = () => {
   }
 }
 
+const downloadModal = ref(null)
+
 const downloadJSON = () => {
   console.log('downloadJSON-materialLayout::', materialStore.materialLayout)
   console.log('downloadJSON-layoutParams::', materialStore.layoutParams.list)
+  const data = {
+    model: materialStore.materialLayout,
+    layoutParams: materialStore.layoutParams.list
+  }
+  downloadModal.value.show(data)
 }
 </script>
 
@@ -87,6 +96,8 @@ const downloadJSON = () => {
       </a-button>
     </div>
   </div>
+
+  <download-modal ref="downloadModal" />
 </template>
 
 <style scoped>
